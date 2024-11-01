@@ -13,7 +13,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-
   @Bean
   public PasswordEncoder passwordEncode() {
     return new BCryptPasswordEncoder();
