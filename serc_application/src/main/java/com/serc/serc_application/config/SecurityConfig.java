@@ -34,7 +34,7 @@ import org.springframework.security.web.SecurityFilterChain;
                 .logout(logout -> logout
                     .logoutUrl("/logout")
                     .logoutSuccessUrl("/login_process")
-                    .invalidateHttpSession(true)
+                    .invalidateHttpSession(true)    
                     .deleteCookies("JSESSIONID")
                 )
                 .build();
@@ -45,7 +45,7 @@ import org.springframework.security.web.SecurityFilterChain;
     @Bean
     UserDetailsService userDetailsService(){
         var user  = User.withUsername("van")
-                        .password("{noop}password")
+                        .password("123")
                         .build();
 
         return new InMemoryUserDetailsManager(user);

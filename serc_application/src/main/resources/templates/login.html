@@ -4,45 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../static/vendor/fontawesome-free/css/all.css">
+    <link rel="stylesheet" href="../static/vendor/css/sb-admin-2.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    rel="stylesheet" />
 </head>
-<body style="background-color: red;">
-    <div class="container">
-
+<body class="bg-info">
+    <div class="container center card mt-5">
         <!-- Outer Row -->
-        <div class="row justify-content-center">
-            <div class="col-xl-10 col-lg-12 col-md-9">
-
+        <div class="row d-flex justify-content-center align-items-center mt-5">
+            <!-- Left Side Image Column --> 
+            <div class="col-lg-6 d-flex justify-content-center">
+                <img src="https://res.cloudinary.com/aquarii/image/upload/v1643954966/Securities-and-Exchange-Regulator-of-Cambodia-2.jpg" alt="Logo" class="img-fluid" style="width: 100%; max-width: 400px;">
+            </div>
+    
+            <!-- Right Side Login Form Column -->
+            <div class="col-lg-6">
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
-                                    </div>
-                                    
-                                    <form class="user" action="/login_process" method="POST"> <!-- Ensure action points to the correct URL -->
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Username..." required>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password"
-                                                required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">Login</button> <!-- Change to button -->
-                                    </form>
-
-                                    <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
-                                    </div>
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                            </div>
+    
+                            <form class="user" action="/login_process" method="POST">
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Username..." required>
                                 </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" required>
+                                </div>
+                                <button type="submit" class="btn btn-info btn-user btn-block">Login</button>
+                            </form>
+    
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="forgot-password.html">Forgot Password?</a>
+                            </div>
+                            <div class="text-center">
+                                <a class="small" href="register.html">Create an Account!</a>
                             </div>
                         </div>
                     </div>
@@ -50,5 +59,15 @@
             </div>
         </div>
     </div>
+    
+
+    <!-- JavaScript Libraries -->
+    <script type="" src="../static/vendor/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../static/vendor/js/sb-admin-2.js"></script>
+    <script type="text/javascript" src="../static/vendor/bootstrap/js/bootstrap.bundle.js.map"></script>
+    <script type="text/javascript" src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-9DkLwjOnGVfb0niFauHZiDH9Ed3kzmrKwlEzsgFO2K7uLhT+8svZ3nXX98J/9Ltj" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -20,10 +20,11 @@ public class UserController {
 
     @PostMapping("/login_process")
     public String loginProcess(HttpServletRequest request, Model m) {
-        try {
-            return "redirect:/main"; // Ensure you have a mapping for /users
-        } catch (IllegalArgumentException e) {
-            return "redirect:/users/error"; // Ensure this mapping exists
-        }
+        return "redirect:main";
+        // try {
+        //     return "redirect:/main"; // Ensure you have a mapping for /users
+        // } catch (IllegalArgumentException e) {
+        //     return "redirect:/users/error"; // Ensure this mapping exists
+        // }
     }
 }
