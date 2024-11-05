@@ -8,6 +8,10 @@
       rel="stylesheet"
     />
     <style>
+
+        body{
+            background-color: rgb(14, 46, 134);
+        }
         .bg-gradient-primary {
             background-color: #4e73df; /* Primary color */
             background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
@@ -69,14 +73,24 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+        .btnLogin{
+            background-color: rgb(14, 46, 134);
+            color: aliceblue;
+            font-weight: bold;
+            width: 200px;
+        }
     </style>
   </head>
-<body class="bg-gradient-primary">
+<body>
     <div class="container center">
         <!-- Outer Row -->
+        <div class="card o-hidden border-0 shadow-lg my-5 p-5">
         <div class="row justify-content-center">
+            <!-- Left Side Image Column -->
+            <div class="col-lg-6 d-flex justify-content-center">
+                <img src="https://res.cloudinary.com/aquarii/image/upload/v1643954966/Securities-and-Exchange-Regulator-of-Cambodia-2.jpg" alt="Logo" class="img-fluid" style="width: 100%; max-width: 400px;">
+            </div>
             <div class="col-xl-6 col-lg-6 col-md-9">
-                <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
@@ -133,9 +147,9 @@
                                                 </div>
                                             </div> -->
 
-                                            <div class="form-group">
+                                            <div class="form-group d-flex justify-content-center">
                                                 <div class="col-md-offset-2">
-                                                    <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
+                                                    <button type="submit" class="btn btn-user btn-block btnLogin">Login</button>
                                                 </div>
                                             </div>
 
