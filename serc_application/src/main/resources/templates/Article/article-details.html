@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <title>Article Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:fragment="content">
+        <div class="container">
+            <h1 class="mb-4 mt-5">Article Details</h1>
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="image_url"><strong>Article Title</strong></label>
+                        <div>
+                            <p class="card-title" th:text="${article.title}"></p>              
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="image_url"><strong>Short Description: </strong></label>
+                        <p><span th:text="${article.shortDescription}"></span></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="image_url"><strong>Long Description: </strong></label>
+                        <p class="card-text" th:text="${article.longDescription}"></p>
+                    </div>
+                    
+                    <!-- <p class="card-text" th:text="${article.longDescription}"></p> -->
+                    <!-- <p><strong>Short Description:</strong> <span th:text="${article.shortDescription}"></span></p> -->
+                    <p><strong>Created By:</strong> <span th:text="${article.createdBy}"></span></p>
+                    <p><strong>Created Date:</strong> <span th:text="${#dates.format(article.createdDate, 'yyyy-MM-dd')}"></span></p>
+                    <div class="form-group">
+                        <label for="image_url"><strong>Image</strong></label>
+                        <div>
+                            <img th:src="@{'/uploads/' + ${article.imageUrl}}" class="h-100 w-100" alt="Product Image">                
+                        </div>
+                    </div>
+                    
+                    <!-- Uncomment these if needed -->
+                    <!-- <a th:href="@{/Article/edit/{id}(id=${article.id})}" class="btn btn-warning">Edit</a> -->
+                    <!-- <a th:href="@{/Article/delete/{id}(id=${article.id})}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a> -->
+                    <a th:href="@{/Article/list}" class="btn btn-primary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">   
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="layout :: title">Category Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+</head>
+<style>
+    .search-box {
+        margin-bottom: 15px;
+    }
+    .table-container {
+        margin-top: 20px;
+    }
+    .btn-primary, .btn-danger {
+        margin-right: 5px;
+    }
+    
+</style>
+<body>
+<div th:fragment="content" class="mt-5">
+    <h2>Category Management</h2>
+    <div class="search-box m-2">
+        <form th:action="@{/categorys}" method="get" class="mx-2">
+            <div class="row">
+                <div class="col-5 m-0 p-0">
+                  <input
+                    type="text"
+                    name="categoryName"
+                    class="form-control w-100"
+                    placeholder="Search user by category..."
+                    th:value="${categoryName}"
+                  />
+                </div>
+                <div class="col-3 m-0 p-0">
+                  <button type="submit" class="btn btn-primary float-left" th:text="#{btn-search}"></button>
+                </div>
+                <div class="col-4">
+                    <a th:href="@{/categorys/addCategory}" class="btn btn-primary float-right text-nowrap">Add New Category</a>
+                </div>
+            </div>          
+        </form>
+    </div>
+ 
+    
+    <!-- Page Size Dropdown -->
+    <div class="card shadow mt-3 mb-4">
+        <div class="card-header py-3">
+            <div class="float-left w-25">
+              <h4 class="m-0 font-weight-bold text-primary d-flex align-items-center">Category Data Table</h4>
+            </div>
+            <!-- Page Size Dropdown -->
+            <div class="form-group d-flex flex-row float-right m-0">
+              <label for="pageSize" class="d-flex align-items-center m-0">Show</label>
+                <form th:action="@{/categorys}" method="get" class="mx-1">
+                    <select class="form-control" th:name="pageSize" id="pageSize" onchange="this.form.submit()">
+                        <option th:value="5" th:text="5" th:selected="${pageSize == 5}"></option>
+                        <option th:value="10" th:text="10" th:selected="${pageSize == 10}"></option>
+                        <option th:value="20" th:text="20" th:selected="${pageSize == 20}"></option>
+                        <option th:value="50" th:text="50" th:selected="${pageSize == 50}"></option>
+                        <option th:value="100" th:text="100" th:selected="${pageSize == 100}"></option>
+                    </select>
+                </form>
+                <label for="pageSize" class="d-flex align-items-center m-0">items per Page: </label>
+            </div>
+        </div>
+
+        <div class="card-body">        
+            <div class="table-responsive">           
+                <table class="table table-bordered table-hover">
+                    <thead style="text-align: center">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>description</th>
+                            <th>Create By</th>
+                            <th>Create Date</th>
+                            <th>Update By</th>
+                            <th>Update Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align: center">
+                        <tr th:each="c : ${categoryPage}">
+                            <td th:text="${c.id}"></td>
+                            <td th:text="${c.categoryName}"></td>    
+                            <td th:text="${c.description}"></td>
+                            <td th:text="${c.created_by}"></td>
+                            <td th:text="${c.created_date}"></td>
+                            <td th:text="${c.updated_by}"></td>
+                            <td th:text="${c.update_date}"></td>
+                            <td>
+                                <a th:href="@{/categorys/edit/{id}(id=${c.id})}" class="btn btn-sm btn-primary">Edit</a>
+                                <!-- <a th:href="@{/categorys/delete/{id}(id=${c.id})}" class="btn btn-danger">Delete</a> -->
+                                <a th:href="@{/categorys/delete/{id}(id=${c.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this category?')">Delete</a> 
+                            </td>
+                        </tr>                        
+                    </tbody>
+
+                    <tfoot>
+                        <tr th:if="${#lists.isEmpty(categoryPage)}" class="text-center">
+                            <td colspan="11">No Category</td>
+                        </tr>
+                    </tfoot>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-2">
+        <div class="pagenumber float-right">
+            <nav aria-label="Page navigation">
+                <div class="d-flex justify-content-center align-items-center">
+                    <ul class="pagination">
+                        <!-- Previous Button -->
+                        <li th:class="${currentPage == 0} ? 'page-item disabled' : 'page-item'">
+                            <a class="page-link" th:href="@{/categorys(pageNumber=${currentPage - 1}, pageSize=${pageSize})}" aria-label="Previous">
+                                Previous
+                            </a>
+                        </li>
+        
+                        <!-- First Page -->
+                        <li th:class="${currentPage == 0} ? 'page-item active' : 'page-item'">
+                            <a class="page-link" th:href="@{/categorys(pageNumber=0, pageSize=${pageSize})}">1</a>
+                        </li>
+        
+                        <!-- Ellipses before current page if necessary -->
+                        <li th:if="${currentPage > 2}" class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+        
+                        <!-- Pages around the current page -->
+                        <li th:each="pageNum : ${#numbers.sequence(currentPage - 1, currentPage + 1)}"
+                            th:if="${pageNum > 0 and pageNum < totalPages - 1}"
+                            th:class="${pageNum == currentPage} ? 'page-item active' : 'page-item'">
+                            <a class="page-link" th:href="@{/categorys(pageNumber=${pageNum}, pageSize=${pageSize})}"
+                              th:text="${pageNum + 1}"></a>
+                        </li>
+        
+                        <!-- Ellipses after current page if necessary -->
+                        <li th:if="${currentPage < totalPages - 3}" class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+        
+                        <!-- Last Page -->
+                        <li th:if="${totalPages > 1}" th:class="${currentPage == totalPages - 1} ? 'page-item active' : 'page-item'">
+                            <a class="page-link" th:href="@{/categorys(pageNumber=${totalPages - 1}, pageSize=${pageSize})}"
+                              th:text="${totalPages}"></a>
+                        </li>
+        
+                        <!-- Next Button -->
+                        <li th:class="${currentPage == totalPages - 1} ? 'page-item disabled' : 'page-item'">
+                            <a class="page-link" th:href="@{/categorys(pageNumber=${currentPage + 1}, pageSize=${pageSize})}" aria-label="Next">
+                                Next
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>       
+    </div>
+</div>
+
+</body>
+</html>

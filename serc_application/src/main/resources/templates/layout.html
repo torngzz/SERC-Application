@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:fragment="${pageTitle}">Admin Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        #content {
+            z-index: 500;
+        }
+        #sidebar {
+            z-index: 499;
+            min-height: 100vh;
+            transition: all 0.3s;
+            position: sticky;
+            top: 56px;
+        }
+        #lang option:first-child{
+            display: none;
+        }
+        .nav-link {
+            color: #fff !important;
+        }
+        .nav-link:hover {
+            /* color: #fff !important; */
+            background-color: #0d6efd;
+            /* background-color: #fff !important; */
+        }
+
+        .btn-sidebar:focus,
+        .btn-sidebar:active,
+        .btn-sidebar:focus-visible {
+            border: 0px transparent !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        .btn-sidebar:hover{
+            background-color: #0d6efd !important;
+        }
+        ul {
+            list-style: none; /* Remove default list style */
+        }
+        .dropdown-menu {
+            min-width: 100%; /* Ensures dropdown menu matches the width of the button */
+        }
+        /* Hide dropdown icon for buttons with the custom class */
+        .no-dropdown-icon::after {
+            display: none; /* Hide the default dropdown icon */
+        }
+    </style>
+</head>
+<body>
+    <div id="layout" th:fragment="layout">
+        <header class="bg-primary text-white fixed-top navbar">
+            <div class="container-fluid d-flex justify-content-between align-items-center text-nowrap">
+                <div class="navbar-brand d-none d-md-block">
+                    <h3>Admin Dashboard</h3>
+                </div>
+                <div class="d-flex align-items-center">
+                    <!-- Button with dropdown menu -->  
+                    <div class="dropdown">
+                        <button class="btn btn-light text-white d-flex align-items-center dropdown-toggle no-dropdown-icon" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <!-- Username text -->
+                            <span class="text-primary" th:text="${session.username}"></span>
+                            <!-- User icon -->
+                            <i class="fa-solid fa-user ms-2 text-primary rounded-pill ml-2"></i>
+                        </button>
+
+                        <!-- Dropdown menu -->
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <!-- Change Language Button -->
+                            <div class="btn-group dropleft">
+                                <button id="dropdownLeft" class="dropdown-item dropdown-toggle w-100 border-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Change Language
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#" onclick="changeLanguage('en')">English</a>
+                                    <a class="dropdown-item" href="#" onclick="changeLanguage('kh')">Khmer</a>
+                                    <a class="dropdown-item" href="#" onclick="changeLanguage('th')">Thai</a>
+                                </div>
+                            </div>
+                            <!-- Change Password Button -->
+                            <button type="button" class="dropdown-item ml-3 btn" data-toggle="modal" data-target="#changePWDModal">
+                                Change Password
+                            </button>
+
+                            <div class="dropdown-divider"></div>
+
+                            <!-- Logout Link -->
+                            <a class="dropdown-item ml-3 btn" th:href="@{/logout}">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Modal -->
+        <div class="modal fade" id="changePWDModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                            <p th:text="${successMessage}"></p>
+                        </div>
+
+                        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                            <p th:text="${errorMessage}"></p>
+                        </div>
+
+                        <form id="changePasswordForm" th:action="@{/change-password}" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            <div class="form-group">
+                                <label for="oldPassword">Old Password</label>
+                                <input type="password" id="oldPassword" name="oldPassword" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" name="newPassword" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cfPassword">Confirm New Password</label>
+                                <input type="password" id="cfPassword" name="cfPassword" class="form-control" required>
+                            </div>
+                            <input type="submit" id="btn-changePWD" value="Reset" class="btn btn-primary btn-user btn-block w-25 float-right">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <nav id="sidebar" class="col-lg-2 d-none d-lg-block bg-dark text-white">
+                    <div class="sidebar-sticky">
+                        <div class="mt-5 pt-5">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="nav-item text-left d-flex justify-content-start">
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/dashboard/}">Dashboard</a>
+                                    </div>
+                                </div>
+                            </button>
+
+                           <hr style="color: white; background-color: white; border: none; height: 1px;">
+
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse" data-target="#collapseUser" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    User Management
+                                    <i class="fa-solid fa-angle-right float-right"></i>
+                                </div>
+                            </button>
+                            <div class="collapse mt-1" id="collapseUser">
+                                <ul class="">
+                                    <li class="nav-item text-left d-flex justify-content-start">
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/users}">User</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse" data-target="#collapseProduct" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    Product Management
+                                    <i class="fa-solid fa-angle-right float-right"></i>
+                                </div>
+                            </button>
+                            <div class="collapse mt-1" id="collapseProduct">
+                                <ul class="">
+                                    <li class="nav-item">
+                                        <li class="nav-item">
+                                            <a class="nav-link rounded-pill w-75" th:href="@{/categorys}">Category</a>
+                                        </li>
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/products}">Product</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse" data-target="#collapseArticle" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    Article Management
+                                    <i class="fa-solid fa-angle-right float-right"></i>
+                                </div>
+                            </button>
+                            <div class="collapse mt-1" id="collapseArticle">
+                                <ul class="">
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">Article</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                <main role="main" class="col-lg-10 px-4">
+                    <div id="content" class="mt-5 p-1">
+                        <div th:insert="~{::content}"></div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/4000b889e3.js" crossorigin="anonymous"></script>
+    <script src="../static/chart/chart-area-demo.js"></script>
+    <script src="../static/chart/chart-bar-demo.js"></script>
+    <script src="../static/chart/chart-pie-demo.js"></script>
+    <script>
+        $(document).ready(function () {
+                // Prevent the main dropdown from closing when interacting with the nested dropdown
+                $('#dropdownLeft').on('click', function (e) {
+                    e.stopPropagation(); // Prevent the click event from bubbling up
+                    $(this).next('.dropdown-menu').toggle(); // Toggle the nested dropdown
+                });
+
+                // Close nested dropdown if clicking outside
+                $(document).on('click', function (e) {
+                    if (!$(e.target).closest('#dropdownLeft').length) {
+                        $('.dropdown-menu').hide(); // Hide all dropdown menus
+                    }
+                });
+
+            // Ensure clicking on the main dropdown toggles its menu
+            $('#dropdownMenuButton').on('click', function (e) {
+                e.stopPropagation(); // Prevent the click event from bubbling up
+                $(this).next('.dropdown-menu').toggle(); // Toggle the main dropdown
+            });
+
+            // // Handle form submission via AJAX
+            // $('#changePasswordForm').on('submit', function (e) {
+            //     alert();
+            //     e.preventDefault(); // Prevent default form submission
+            //     $.ajax({
+            //         url: $(this).attr('action'),
+            //         type: $(this).attr('method'),
+            //         data: $(this).serialize(),
+            //         success: function (response) {
+            //             alert(response); // Show success message
+            //             $('#exampleModal').modal('hide'); // Close the modal
+            //         },
+            //         error: function (xhr) {
+            //             alert(xhr.responseText); // Show error message
+            //         }
+            //     });
+            // });
+        });
+        
+        function changeLanguage(lang) {
+            if (lang) {
+                window.location.href = "?lang=" + lang;
+            }
+        }
+    </script>
+</body>
+</html>

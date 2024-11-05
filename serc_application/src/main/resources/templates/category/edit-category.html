@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!-- <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}"> -->
+    <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <title>Category Form</title>
+</head>
+<body>
+    <div th:fragment="content" class="mt-5">
+        <h3>Edit Category</h3>
+        <!-- <h2 th:text="${product.id} == null ? 'Add New Product' : 'Edit Product'"></h2> -->
+        <form th:action="@{/categorys/update/{id}(id=${category.id})}" th:object="${category}" method="post">
+            <div class="form-group">
+                <label for="name">Category Name:</label>
+                <input type="text" id="name" class="form-control" th:field="*{categoryName}">
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <input type="text" id="description" class="form-control" th:field="*{description}">
+            </div>
+            <div class="form-group">
+                <label for="created_date">Created Date:</label>
+                <input type="date" id="created_date" class="form-control" th:field="*{created_date}"disabled>
+            </div>
+            <div class="form-group">
+                <label for="created_by">Created By:</label>
+                <input type="text" id="created_by" class="form-control" th:field="*{created_by}" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="update_date">Update Date:</label>
+                <input type="date" id="update_date" class="form-control" th:field="*{update_date}" disabled >
+            </div>
+
+            <div class="form-group">
+                <label for="updated_by">Update By:</label>
+                <input type="text" id="updated_by" class="form-control" th:field="*{updated_by}" disabled>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a th:href="@{/categorys}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login Form</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+        .bg-gradient-primary {
+            background-color: #4e73df; /* Primary color */
+            background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+            background-size: cover;
+        }
+
+        .password-container {
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .password-input {
+            width: 100%;
+            padding-right: 30px; /* Adjust based on the icon size */
+        }
+
+        .password-toggle-icon {
+            position: absolute;
+            right: 20px; /* Adjust as necessary */
+            top: 20px;
+            cursor: pointer;
+        }
+
+        .error {
+            color: #e74a3b;
+            font-size: initial;
+            margin-left: 10px;
+            display: flexbox;
+            flex-direction: column;
+        }
+
+        .form-control.error {
+            border-color: #e74a3b;
+            position: relative;
+            width: 100%;
+            padding-right: 0.75rem;
+            padding-left: 0.75rem;
+        }
+
+        label.error {
+            border-color: #e74a3b;
+            width: 100%;
+            margin-left: 0;
+            padding: 0 10px;
+        }
+
+        .form-group.error {
+            margin: 0 !important;
+            background-color: blue !important;
+            padding: 0;
+        }
+
+        .center {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+  </head>
+<body class="bg-gradient-primary">
+    <div class="container center">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-6 col-lg-6 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <!-- <div class="col-lg-5 w-100" style="background-size: cover;">
+                                <img class="w-100 h-100" src="http://localhost:8082/backendaubshop/image/Login.gif" alt="Login Image">
+                            </div> -->
+
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Welcome!</h1>
+                                    </div>
+                                    <div th:if="${param.error == 'accessDenied'}" class="alert alert-danger mt-3" role="alert">
+                                        Access Denied: You do not have permission to access the requested page.
+                                    </div>
+                                    <form th:action="@{/loging}" method="post">
+                                        <div class="form-group">
+                                        </div>
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label for="username">Username</label>
+                                                <input
+                                                  type="text"
+                                                  class="form-control"
+                                                  id="username"
+                                                    name="username"
+                                                  placeholder="Enter username"
+                                                  required
+                                                />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <!-- @Html.TextBoxFor(model => model.Password, new { @class = "", @type = "password", @placeholder = "Password" }) -->
+                                                <label for="password">Password</label>
+                                                <input
+                                                  type="password"
+                                                  class="password-input form-control form-control-user"
+                                                  id="password"
+                                                  name="password"
+                                                  placeholder="Enter password"
+                                                  required
+                                                />
+                                                <i class="fas fa-eye-slash fa-fw fa-sm password-toggle-icon"></i>
+                                            </div>
+                                            
+                                            <hr class=""/>
+
+                                            <!-- <div class="form-group">
+                                                <div class="custom-control custom-checkbox small">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                    <label class="custom-control-label" for="customCheck">
+                                                        Remember Me
+                                                    </label>
+                                                </div>
+                                            </div> -->
+
+                                            <div class="form-group">
+                                                <div class="col-md-offset-2">
+                                                    <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
+                                                </div>
+                                            </div>
+
+                                            <!-- <div class="text-center">
+                                              <a href="" class="small">Forgot Password?</a>
+                                            </div> -->
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            const passwordInput = document.querySelector('.password-input');
+            const toggleIcon = document.querySelector('.password-toggle-icon');
+            
+        toggleIcon.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        function login() {
+            var loginObj = {
+                Username: $('#Username').val(),
+                Password: $('#Password').val()
+            };
+            }
+        })
+    </script>
+</body>
+</html>

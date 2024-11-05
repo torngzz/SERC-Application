@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+  <head>
+    <meta charset="UTF-8" />
+    <title th:replace="layout :: title">Product Management</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/style/css/styles.css}" />
+    <style>
+      table.table td,
+      table.table th {
+        white-space: nowrap; /* Prevent line breaks */
+      }
+      .table-container {
+        overflow-x: auto; /* Ensure the table is scrollable */
+        -webkit-overflow-scrolling: touch; /* For smooth scrolling on mobile */
+      }
+      @media (max-width: 768px) {
+        /* For small screens */
+        .col-md-2 {
+          flex: 0 0 100%; /* Make sidebar take full width on small screens */
+        }
+      }
+      @media (min-width: 769px) and (max-width: 1400px) {
+        /* For medium screens */
+        .col-md-2 {
+          flex: 0 0 100%; /* Make sidebar take full width on small screens */
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-dark">
+    <div th:fragment="content" class="mt-5">
+      <h2>Product Management</h2>
+      <div class="search-box m-2">
+        <form th:action="@{/products}" method="get" class="mx-2">
+          <div class="row">
+            <div class="col-5 m-0 p-0">
+                <input type="text" th:name="productName" class="form-control w-100" placeholder="Search product by name..." th:value="${productName}">
+
+            </div>
+            <div class="col-3 m-0 p-0">
+              <button type="submit" class="btn btn-primary float-left" th:text="#{btn-search}"></button>
+            </div>
+            <div class="col-4">
+              <a th:href="@{/products/addProduct}" class="btn btn-primary float-right text-nowrap">Add New Product</a>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- DataTales Example -->
+      <div class="card shadow mb-4 mt-3">
+        <div class="card-header py-3">
+          <div class="float-left w-25">
+            <h4 class="m-0 font-weight-bold text-primary d-flex align-items-center">Product Data Table</h4>
+          </div>
+          <!-- Page Size Dropdown -->
+          <div class="form-group d-flex flex-row float-right m-0">
+            <label for="pageSize" class="d-flex align-items-center m-0">Show</label>
+            <form th:action="@{/products}" method="get" class="mx-1">
+              <select
+                class="form-control"
+                name="pageSize"
+                id="pageSize"
+                onchange="this.form.submit()">
+                <option value="10" th:text="10" th:selected="${pageSize == 10}"></option>
+                <option value="20" th:text="20" th:selected="${pageSize == 20}"></option>
+                <option value="50" th:text="50" th:selected="${pageSize == 50}"></option>
+                <option value="100" th:text="100" th:selected="${pageSize == 100}"></option>
+              </select>
+            </form>
+            <label for="pageSize" class="d-flex align-items-center m-0">items per Page: </label>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead style="text-align: center">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Original-Price</th>
+                    <th>Sale-Price</th>
+                    <th>Image-Url</th>
+                    <th>Created-Date</th>
+                    <th>Created-By</th>
+                    <th>Updated-By</th>
+                    <th>Updated-Date</th>
+                    <th>Actions</th>
+                </tr>
+
+              </thead>
+              <tbody style="text-align: center">
+                <tr th:each="product : ${productDto}">
+                    <td th:text="${product.product_id}"></td>
+                    <td th:text="${product.productName}"></td>
+                    <td th:text="${product.category.CategoryName}"></td>
+                    <td th:text="${product.original_price}"></td>
+                    <td th:text="${product.sale_price}"></td>
+                    <td>
+                        <img th:src="@{'/uploads/' + ${product.image_url}}" alt="Product Image" style="max-width: 100px; max-height: 100px;">
+                    </td>
+                    <td th:text="${product.createByUsername}"></td>
+                    <td th:text="${product.created_date}"></td>
+                    <td th:text="${product.updateByUsername}"></td>
+                    <td th:text="${product.updated_date}"></td>
+                    <td>
+                        <a th:href="@{'/products/view/' + ${product.product_id}}" class="btn btn-sm btn-info">View</a>
+                        <a th:href="@{'/products/edit/' + ${product.product_id}}" class="btn btn-sm btn-warning">Edit</a>
+                        <a th:href="@{'/products/delete/' + ${product.product_id}}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>          
+              </tbody>
+
+              <tfoot>
+                <tr th:if="${#lists.isEmpty(productDto)}" class="text-center">
+                  <td colspan="11">No Product</td>
+                </tr>
+              </tfoot>
+
+            </table>
+          </div>
+
+          <div class="mt-2">
+            <div class="pagenumber float-right">
+                <nav aria-label="Page navigation">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <ul class="pagination">
+                            <!-- Previous Button -->
+                            <li th:class="${currentPage == 0} ? 'page-item disabled' : 'page-item'">
+                                <a class="page-link" th:href="@{/products(pageNumber=${currentPage - 1}, pageSize=${pageSize})}" aria-label="Previous">
+                                    Previous
+                                </a>
+                            </li>
+            
+                            <!-- First Page -->
+                            <li th:class="${currentPage == 0} ? 'page-item active' : 'page-item'">
+                                <a class="page-link" th:href="@{/products(pageNumber=0, pageSize=${pageSize})}">1</a>
+                            </li>
+            
+                            <!-- Ellipses before current page if necessary -->
+                            <li th:if="${currentPage > 2}" class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+            
+                            <!-- Pages around the current page -->
+                            <li th:each="pageNum : ${#numbers.sequence(currentPage - 1, currentPage + 1)}"
+                                th:if="${pageNum > 0 and pageNum < totalPages - 1}"
+                                th:class="${pageNum == currentPage} ? 'page-item active' : 'page-item'">
+                                <a class="page-link" th:href="@{/products(pageNumber=${pageNum}, pageSize=${pageSize})}"
+                                  th:text="${pageNum + 1}"></a>
+                            </li>
+            
+                            <!-- Ellipses after current page if necessary -->
+                            <li th:if="${currentPage < totalPages - 3}" class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+            
+                            <!-- Last Page -->
+                            <li th:if="${totalPages > 1}" th:class="${currentPage == totalPages - 1} ? 'page-item active' : 'page-item'">
+                                <a class="page-link" th:href="@{/products(pageNumber=${totalPages - 1}, pageSize=${pageSize})}"
+                                  th:text="${totalPages}"></a>
+                            </li>
+            
+                            <!-- Next Button -->
+                            <li th:class="${currentPage == totalPages - 1} ? 'page-item disabled' : 'page-item'">
+                                <a class="page-link" th:href="@{/products(pageNumber=${currentPage + 1}, pageSize=${pageSize})}" aria-label="Next">
+                                    Next
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>            
+        </div>
+
+      </div>
+    </div>
+  </div>
+    <!-- <script>
+      function goToPage(pageNumber) {
+        if (pageNumber < 0 || pageNumber >= totalPages) {
+          return; // Prevent invalid page numbers
+        }
+        const params = new URLSearchParams(window.location.search);
+        params.set("pageNumber", pageNumber);
+        params.set(
+          "pageSize",
+          document.querySelector('select[name="pageSize"]')
+            ? document.querySelector('select[name="pageSize"]').value
+            : 10
+        );
+        window.location.search = params.toString();
+      }
+
+      // Ensure totalPages is defined for validation within goToPage
+      const totalPages = /*[[${totalPages}]]*/ 1;
+    </script> -->
+
+    <th:block th:include="~{layout :: footer}"></th:block>
+  </body>
+</html>

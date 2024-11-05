@@ -1,0 +1,40 @@
+body {
+    font-size: 18px;
+}
+
+.header-content h1 {
+    margin: 0;
+}
+
+.table-container, .form-container {
+    margin-top: 20px;
+}
+
+/* Media queries */
+@media (max-width: 1400px) {
+    #layout {
+        z-index: 100;
+    }
+    #content {
+        z-index: 99;
+    }
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #content {
+        margin-left: 0;
+    }
+    #content.active {
+        margin-left: 250px;
+    }
+}

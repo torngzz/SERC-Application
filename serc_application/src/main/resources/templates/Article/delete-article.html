@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <title>Delete Article</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 20px;
+        }
+        .alert {
+            margin-bottom: 20px;
+        }
+        .btn {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div th:fragment="content">
+        <div class="container">
+            <h1 class="mb-4 mt-5">Confirm Deletion</h1>
+            <div class="alert alert-danger">
+                <h4 class="alert-heading">Are you sure you want to delete this article?</h4>
+                <p>This action cannot be undone.</p>
+                <form th:action="@{/Article/delete/{id}(id=${article.id})}" method="post">
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                    <a href="/Article/list" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

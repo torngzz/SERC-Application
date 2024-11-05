@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <title>Edit Article</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:fragment="content">
+        <div class="container">
+            <h1 class="mb-4 mt-5">Edit Article</h1>
+            <!-- edit-article.html -->
+            <form th:action="@{/Article/update/{id}(id=${article.id})}" th:object="${article}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title"><strong>Title</strong></label>
+                    <input type="text" id="title" th:field="*{title}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="shortDescription"><strong>Short Description</strong></label>
+                    <input type="text" id="shortDescription" th:field="*{shortDescription}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="longDescription"><strong>Long Description</strong></label>
+                    <textarea id="longDescription" th:field="*{longDescription}" class="form-control" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="imageUrl"><strong>Current Image</strong></label>
+                    <div>
+                        <img th:src="@{'/uploads/' + ${article.imageUrl}}" alt="Article Image" style="max-width: 100px; max-height: 100px;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="imageUrl"><strong>Upload New Image</strong></label>
+                    <input type="file" id="imageUrl" name="image" class="form-control-file">
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a th:href="@{/Article/list}" class="btn btn-secondary">Cancel</a>
+            </form>
+            
+        </div>
+    </div>
+</body>
+</html>

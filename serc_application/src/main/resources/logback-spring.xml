@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>
+				%highlight(%-5level): %d - [backend_aub_shop] - %msg%n%ex{10}
+			</pattern>
+		</layout>
+	</appender>
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/aub/backend_aub_shop/backend_aub_shop.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/aub/backend_aub_shop/backend_aub_shop.%d{yyyyMMdd}.log</fileNamePattern>
+		</rollingPolicy>			
+		<encoder>
+			<pattern>%-5level: %d - %msg%n</pattern>
+		</encoder>
+	</appender> 
+
+	<appender name="CONSOLE" class="ch.qos.logback.console.ConsoleAppender">
+			<encoder>
+					<pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+			</encoder>
+	</appender>
+
+	<logger name="com.aub.backend_aub_shop" level="info" additivity="true">
+		<appender-ref ref="FILE" />
+	</logger>
+
+	<logger name="org.springframework" level="warn">
+		<appender-ref ref="console" />
+	</logger>
+
+	<root level="info">
+	  <appender-ref ref="console" />
+	</root>    
+</configuration>

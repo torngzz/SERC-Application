@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <meta charset="UTF-8" />
+    <title>Article List</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/style/css/styles.css}" />
+    <style>
+        table.table td,
+        table.table th {
+            white-space: nowrap; /* Prevent line breaks */
+        }
+        .table-container {
+            overflow-x: auto; /* Ensure the table is scrollable */
+            -webkit-overflow-scrolling: touch; /* For smooth scrolling on mobile */
+        }
+        .table thead th {
+            background-color: #343a40; /* Dark background for table header */
+            color: #ffffff; /* White text for table header */
+        }
+        .table tbody tr {
+            background-color: #6c757d; /* Slightly lighter background for table rows */
+            color: #ffffff; /* White text for table rows */
+        }
+        .table tbody tr:hover {
+            background-color: #495057; /* Darker background on hover for better visibility */
+        }
+        .pagination-container {
+            margin-top: 20px;
+        }
+        body {
+            background-color: #343a40; /* Dark background for the page */
+            color: #ffffff; /* White text color for the page */
+        }
+        .btn-action {
+            margin-right: 5px; /* Space between buttons */
+        }
+        .btn-action:last-child {
+            margin-right: 0; /* Remove margin for the last button */
+        }
+ 
+      .multiline-truncate {
+        display: -webkit-box;        
+        -webkit-box-orient: vertical; 
+        -webkit-line-clamp: 2;        
+        overflow: hidden;            
+        text-overflow: ellipsis;      
+        max-height: 3em;              
+        max-width: 150px;             
+        white-space: nowrap;  
+        word-wrap: break-word;
+      } 
+
+
+    </style>
+</head>
+<body>
+    <div th:fragment="content" class="mt-5">
+        <h2>Article Management</h2>
+        <div class="search-box m-2">
+          <form th:action="@{/Article}" method="get" class="mx-2">
+            <div class="row">
+              <div class="col-5 m-0 p-0">
+                <input
+                  type="text"
+                  name="username"
+                  class="form-control w-100"
+                  placeholder="Search user by article..."
+                  th:value="${article}"
+                />
+              </div>
+              <div class="col-3 m-0 p-0">
+                <button type="submit" class="btn btn-primary float-left" th:text="#{btn-search}"></button>
+              </div>
+              <div class="col-4">
+                <a href="#" th:href="@{/Article/addArticle}" class="btn btn-primary mb-3 float-right text-nowrap">Add New Article</a>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- DataTales Example -->
+      <div class="card shadow mb-4 mt-3">
+        <div class="card-header py-3">
+          <div class="float-left w-25">
+            <h4 class="m-0 font-weight-bold text-primary d-flex align-items-center">Article Data Table</h4>
+          </div>
+          <!-- Page Size Dropdown -->
+          <div class="form-group d-flex flex-row float-right m-0">
+            <label for="pageSize" class="d-flex align-items-center m-0">Show</label>
+            <form th:action="@{/users}" method="get" class="mx-1">
+              <select
+                class="form-control"
+                name="pageSize"
+                id="pageSize"
+                onchange="this.form.submit()">
+                <option value="10" th:text="10" th:selected="${pageSize == 10}"></option>
+                <option value="20" th:text="20" th:selected="${pageSize == 20}"></option>
+                <option value="50" th:text="50" th:selected="${pageSize == 50}"></option>
+                <option value="100" th:text="100" th:selected="${pageSize == 100}"></option>
+              </select>
+            </form>
+
+            <label for="pageSize" class="d-flex align-items-center m-0">items per Page: </label>
+          </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div class="table-container">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th class="text-nowrap">Title</th>
+                                <th>Short Description</th>
+                                <th>Long Description</th>
+                                <th class="text-nowrap">Created By</th>
+                                <th class="text-nowrap">Created Date</th>
+                                <th>Image URL</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align: center">
+                          <tr th:each="article : ${articles}">
+                              <td th:text="${article.id}"></td>
+                              <td style="       
+                                  overflow: hidden;            
+                                  text-overflow: ellipsis;      
+                                  max-height: 3em;              
+                                  max-width: 280px;             
+                                  white-space: nowrap;  
+                                  word-wrap: break-word;"
+                                  class="text-nowrap" th:text="${article.title}" 
+                                  th:attr="title=${article.title}"></td>
+                      
+                              <td style="       
+                                  overflow: hidden;            
+                                  text-overflow: ellipsis;      
+                                  max-height: 3em;              
+                                  max-width: 280px;             
+                                  white-space: nowrap;  
+                                  word-wrap: break-word;"
+                                  class="truncate-text"
+                                  th:text="${article.shortDescription}"
+                                  th:attr="title=${article.shortDescription}"> <!-- Add title attribute here -->
+                              </td>
+                      
+                              <td style="       
+                                  overflow: hidden;            
+                                  text-overflow: ellipsis;      
+                                  max-height: 3em;              
+                                  max-width: 280px;             
+                                  white-space: nowrap;  
+                                  word-wrap: break-word;"
+                                  class="multiline-truncate"
+                                  th:text="${article.longDescription}"
+                                  th:attr="title=${article.longDescription}">
+                              </td>
+                      
+                              <td class="text-nowrap" th:text="${article.createdBy}"
+                                th:attr="title=${article.createdBy}"></td>
+                              <td class="text-nowrap" th:text="${#dates.format(article.createdDate, 'yyyy-MM-dd HH:mm:ss')}"
+                                th:attr="title=${article.createdDate}"></td>
+                              <td>
+                                  <img th:src="@{'/uploads/' + ${article.imageUrl}}" alt="Article Image" style="width: 100px; height: auto;"
+                                  th:attr="title=${article.imageUrl}">
+                              </td>
+                              <td class="text-nowrap">
+                                  <a th:href="@{/Article/details/{id}(id=${article.id})}" class="btn btn-info btn-sm btn-action">View</a>
+                                  <a th:href="@{/Article/edit/{id}(id=${article.id})}" class="btn btn-warning btn-sm btn-action">Edit</a>
+                                  <a th:href="@{/Article/delete/{id}(id=${article.id})}" class="btn btn-danger btn-sm btn-action" onclick="return confirm('Are you sure you want to delete this Article?')">Delete</a>
+                              </td>
+                          </tr>
+                      </tbody>
+
+                      <tfoot>
+                        <tr th:if="${#lists.isEmpty(articles)}" class="text-center">
+                          <td colspan="11">No Article</td>
+                      </tr>
+                      </tfoot>
+                      
+                    </table>
+                  </div>
+
+                </div>
+                <div class="mt-2">
+                  <div class="pagenumber float-right">
+                      <nav aria-label="Page navigation">
+                          <div class="d-flex justify-content-center align-items-center">
+                              <ul class="pagination">
+                                  <!-- Previous Button -->
+                                  <li th:class="${currentPage == 0} ? 'page-item disabled' : 'page-item'">
+                                      <a class="page-link" th:href="@{/Article/list(pageNumber=${currentPage - 1}, pageSize=${pageSize})}" aria-label="Previous">
+                                          Previous
+                                      </a>
+                                  </li>
+                  
+                                  <!-- First Page -->
+                                  <li th:class="${currentPage == 0} ? 'page-item active' : 'page-item'">
+                                      <a class="page-link" th:href="@{/Article/list(pageNumber=0, pageSize=${pageSize})}">1</a>
+                                  </li>
+                  
+                                  <!-- Ellipses before current page if necessary -->
+                                  <li th:if="${currentPage > 2}" class="page-item disabled">
+                                      <span class="page-link">...</span>
+                                  </li>
+                  
+                                  <!-- Pages around the current page -->
+                                  <li th:each="pageNum : ${#numbers.sequence(currentPage - 1, currentPage + 1)}"
+                                      th:if="${pageNum > 0 and pageNum < totalPages - 1}"
+                                      th:class="${pageNum == currentPage} ? 'page-item active' : 'page-item'">
+                                      <a class="page-link" th:href="@{/Article/list(pageNumber=${pageNum}, pageSize=${pageSize})}"
+                                        th:text="${pageNum + 1}"></a>
+                                  </li>
+                  
+                                  <!-- Ellipses after current page if necessary -->
+                                  <li th:if="${currentPage < totalPages - 3}" class="page-item disabled">
+                                      <span class="page-link">...</span>
+                                  </li>
+                  
+                                  <!-- Last Page -->
+                                  <li th:if="${totalPages > 1}" th:class="${currentPage == totalPages - 1} ? 'page-item active' : 'page-item'">
+                                      <a class="page-link" th:href="@{/Article/list(pageNumber=${totalPages - 1}, pageSize=${pageSize})}"
+                                        th:text="${totalPages}"></a>
+                                  </li>
+                  
+                                  <!-- Next Button -->
+                                  <li th:class="${currentPage == totalPages - 1} ? 'page-item disabled' : 'page-item'">
+                                      <a class="page-link" th:href="@{/Article/list(pageNumber=${currentPage + 1}, pageSize=${pageSize})}" aria-label="Next">
+                                          Next
+                                      </a>
+                                  </li>
+                              </ul>
+                          </div>
+                      </nav>
+                  </div>
+              </div>
+            </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            function goToPage(pageNumber) {
+              if (pageNumber < 0 || pageNumber >= totalPages) {
+                return; // Prevent invalid page numbers
+              }
+              const params = new URLSearchParams(window.location.search);
+              params.set("pageNumber", pageNumber);
+              params.set(
+                "pageSize",
+                document.querySelector('select[name="pageSize"]')
+
+                ? document.querySelector('select[name="pageSize"]').value
+              : 10
+          );
+
+          window.location.search = params.toString();
+        }
+  
+        // Ensure totalPages is defined for validation within goToPage
+        const totalPages = /*[[${totalPages}]]*/ 1;
+      </script>
+</body>
+</html>
+      
