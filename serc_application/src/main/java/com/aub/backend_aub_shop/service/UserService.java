@@ -104,7 +104,7 @@ public class UserService implements UserDetailsService {
 
             String rawPassword = generateRandomPassword();
             String encryptedPassword = passwordEncoder.encode(rawPassword);
-            emailService.sendEmail(user.getEmail(), "AUB E-Shop Password", "Your password to login to AUB E-Shop is : " + rawPassword);
+            emailService.sendEmail(user.getEmail(), "AUB E-Shop Password", "Your password for SERC-Application is : " + rawPassword);
 
             user.setStatus(1);
             user.setCreatedDate(new Date());
