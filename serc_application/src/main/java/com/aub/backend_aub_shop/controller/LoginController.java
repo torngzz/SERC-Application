@@ -60,6 +60,13 @@ public class LoginController {
         }
         return "redirect:/login"; // Redirect to login page after logout
     }
+
+    @GetMapping("/forgot-password")
+    public String showForgotPasswordPage() {
+    return "login/forgot-password"; // This assumes you have a corresponding Thymeleaf or HTML template
+    }
+    
+
     
     // @ResponseBody
     @PostMapping("/change-password")
