@@ -1,7 +1,9 @@
 body {
     font-size: 18px;
 }
-
+.primary-color{
+    background-color: rgb(14, 46, 134) !important;
+}
 .header-content h1 {
     margin: 0;
 }

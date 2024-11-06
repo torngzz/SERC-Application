@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:fragment="layout">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:fragment="${pageTitle}">Admin Dashboard</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/style/css/styles.css">
     <style>
         #content {
             z-index: 500;
         }
+
         #sidebar {
             z-index: 499;
             min-height: 100vh;
@@ -16,12 +19,15 @@
             position: sticky;
             top: 56px;
         }
-        #lang option:first-child{
+
+        #lang option:first-child {
             display: none;
         }
+
         .nav-link {
             color: #fff !important;
         }
+
         .nav-link:hover {
             /* color: #fff !important; */
             background-color: #0d6efd;
@@ -35,22 +41,31 @@
             outline: none !important;
             box-shadow: none !important;
         }
-        
-        .btn-sidebar:hover{
+        .primary-color{
+            background-color: rgb(14, 46, 134) !important;
+        }
+        .btn-sidebar:hover {
             background-color: #0d6efd !important;
         }
+
         ul {
-            list-style: none; /* Remove default list style */
+            list-style: none;
+            /* Remove default list style */
         }
+
         .dropdown-menu {
-            min-width: 100%; /* Ensures dropdown menu matches the width of the button */
+            min-width: 100%;
+            /* Ensures dropdown menu matches the width of the button */
         }
+
         /* Hide dropdown icon for buttons with the custom class */
         .no-dropdown-icon::after {
-            display: none; /* Hide the default dropdown icon */
+            display: none;
+            /* Hide the default dropdown icon */
         }
     </style>
 </head>
+
 <body>
     <div id="layout" th:fragment="layout">
         <header class="bg-primary text-white fixed-top navbar">
@@ -59,9 +74,12 @@
                     <h3>Admin Dashboard</h3>
                 </div>
                 <div class="d-flex align-items-center">
-                    <!-- Button with dropdown menu -->  
+                    <!-- Button with dropdown menu -->
                     <div class="dropdown">
-                        <button class="btn btn-light text-white d-flex align-items-center dropdown-toggle no-dropdown-icon" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button
+                            class="btn btn-light text-white d-flex align-items-center dropdown-toggle no-dropdown-icon"
+                            type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
                             <!-- Username text -->
                             <span class="text-primary" th:text="${session.username}"></span>
                             <!-- User icon -->
@@ -72,7 +90,8 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                             <!-- Change Language Button -->
                             <div class="btn-group dropleft">
-                                <button id="dropdownLeft" class="dropdown-item dropdown-toggle w-100 border-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button id="dropdownLeft" class="dropdown-item dropdown-toggle w-100 border-light"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Change Language
                                 </button>
                                 <div class="dropdown-menu">
@@ -82,7 +101,8 @@
                                 </div>
                             </div>
                             <!-- Change Password Button -->
-                            <button type="button" class="dropdown-item ml-3 btn" data-toggle="modal" data-target="#changePWDModal">
+                            <button type="button" class="dropdown-item ml-3 btn" data-toggle="modal"
+                                data-target="#changePWDModal">
                                 Change Password
                             </button>
 
@@ -97,13 +117,14 @@
         </header>
 
         <!-- Modal -->
-        <div class="modal fade" id="changePWDModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="changePWDModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                            <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
@@ -119,17 +140,20 @@
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                             <div class="form-group">
                                 <label for="oldPassword">Old Password</label>
-                                <input type="password" id="oldPassword" name="oldPassword" class="form-control" required>
+                                <input type="password" id="oldPassword" name="oldPassword" class="form-control"
+                                    required>
                             </div>
                             <div class="form-group">
                                 <label for="newPassword">New Password</label>
-                                <input type="password" id="newPassword" name="newPassword" class="form-control" required>
+                                <input type="password" id="newPassword" name="newPassword" class="form-control"
+                                    required>
                             </div>
                             <div class="form-group">
                                 <label for="cfPassword">Confirm New Password</label>
                                 <input type="password" id="cfPassword" name="cfPassword" class="form-control" required>
                             </div>
-                            <input type="submit" id="btn-changePWD" value="Reset" class="btn btn-primary btn-user btn-block w-25 float-right">
+                            <input type="submit" id="btn-changePWD" value="Reset"
+                                class="btn btn-primary btn-user btn-block w-25 float-right">
                         </form>
                     </div>
                 </div>
@@ -149,9 +173,11 @@
                                 </div>
                             </button>
 
-                           <hr style="color: white; background-color: white; border: none; height: 1px;">
+                            <hr style="color: white; background-color: white; border: none; height: 1px;">
 
-                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse" data-target="#collapseUser" aria-expanded="false" aria-controls="collapseExample">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button"
+                                data-toggle="collapse" data-target="#collapseUser" aria-expanded="false"
+                                aria-controls="collapseExample">
                                 <div class="d-flex align-items-center justify-content-between">
                                     User Management
                                     <i class="fa-solid fa-angle-right float-right"></i>
@@ -175,10 +201,12 @@
                                         <a class="nav-link rounded-pill w-75" th:href="@{/users}">Training Required</a>
                                     </li>
                                     <li class="nav-item text-left d-flex justify-content-start">
-                                        <a class="nav-link rounded-pill w-75" th:href="@{/users}">Training Registered</a>
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/users}">Training
+                                            Registered</a>
                                     </li>
                                     <li class="nav-item text-left d-flex justify-content-start">
-                                        <a class="nav-link rounded-pill w-75" th:href="@{/users}">Rep License Expired</a>
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/users}">Rep License
+                                            Expired</a>
                                     </li>
                                     <li class="nav-item text-left d-flex justify-content-start">
                                         <a class="nav-link rounded-pill w-75" th:href="@{/users}">Rep License 40days</a>
@@ -186,9 +214,11 @@
                                 </ul>
                             </div>
                         </div>
-                        
+
                         <div class="">
-                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse" data-target="#collapseProduct" aria-expanded="false" aria-controls="collapseExample">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button"
+                                data-toggle="collapse" data-target="#collapseProduct" aria-expanded="false"
+                                aria-controls="collapseExample">
                                 <div class="d-flex align-items-center justify-content-between">
                                     Product Management
                                     <i class="fa-solid fa-angle-right float-right"></i>
@@ -197,9 +227,9 @@
                             <div class="collapse mt-1" id="collapseProduct">
                                 <ul class="">
                                     <li class="nav-item">
-                                        <li class="nav-item">
-                                            <a class="nav-link rounded-pill w-75" th:href="@{/categorys}">Category</a>
-                                        </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/categorys}">Category</a>
+                                    </li>
                                         <a class="nav-link rounded-pill w-75" th:href="@{/products}">Product</a>
                                     </li>
                                 </ul>
@@ -207,7 +237,9 @@
                         </div>
 
                         <div class="">
-                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse" data-target="#collapseArticle" aria-expanded="false" aria-controls="collapseExample">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button"
+                                data-toggle="collapse" data-target="#collapseArticle" aria-expanded="false"
+                                aria-controls="collapseExample">
                                 <div class="d-flex align-items-center justify-content-between">
                                     Article Management
                                     <i class="fa-solid fa-angle-right float-right"></i>
@@ -223,7 +255,9 @@
                         </div>
 
                         <div class="">
-                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse" data-target="#collapseDocument" aria-expanded="false" aria-controls="collapseExample">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button"
+                                data-toggle="collapse" data-target="#collapseDocument" aria-expanded="false"
+                                aria-controls="collapseExample">
                                 <div class="d-flex align-items-center justify-content-between">
                                     Documents
                                     <i class="fa-solid fa-angle-right float-right"></i>
@@ -233,24 +267,30 @@
                                 <ul class="">
                                     <span class="font-weight-bold mt-2">Create Team</span>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}"><i class="fa-solid fa-file-arrow-down float-right"></i>ឯកសារចូល</a>
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}"><i
+                                                class="fa-solid fa-file-arrow-down float-right"></i>ឯកសារចូល</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}"><i class="fa-solid fa-folder-open float-right"></i>កំណត់បង្ហាញ</a>
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}"><i
+                                                class="fa-solid fa-folder-open float-right"></i>កំណត់បង្ហាញ</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}"><i class="fa-solid fa-file-arrow-up float-right"></i>ឯកសារចេញ</a>
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}"><i
+                                                class="fa-solid fa-file-arrow-up float-right"></i>ឯកសារចេញ</a>
                                     </li>
 
                                     <span class="font-weight-bold mt-2">Check Team</span>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">បញ្ចប់ការឆ្លង - In</a>
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">បញ្ចប់ការឆ្លង -
+                                            In</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">បញ្ចប់ការឆ្លង​ - Out</a>
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">បញ្ចប់ការឆ្លង​
+                                            - Out</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">បញ្ចប់ការឆ្លង - Letter</a>
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">បញ្ចប់ការឆ្លង -
+                                            Letter</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">Uncheck</a>
@@ -264,7 +304,8 @@
 
                                     <span class="font-weight-bold mt-2">Filling</span>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">Not Filling Yet</a>
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">Not Filling
+                                            Yet</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">ដកប្រើ</a>
@@ -277,7 +318,9 @@
                         </div>
 
                         <div class="">
-                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse" data-target="#collapseProcess" aria-expanded="false" aria-controls="collapseExample">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button"
+                                data-toggle="collapse" data-target="#collapseProcess" aria-expanded="false"
+                                aria-controls="collapseExample">
                                 <div class="d-flex align-items-center justify-content-between">
                                     Processing
                                     <i class="fa-solid fa-angle-right float-right"></i>
@@ -289,37 +332,44 @@
                                         <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">មន្រ្តី</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">ឆ្លងអនុការិយាល័យ</a>
+                                        <a class="nav-link rounded-pill w-75"
+                                            th:href="@{/Article/list}">ឆ្លងអនុការិយាល័យ</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">ឆ្លងការិយាល័យ</a>
+                                        <a class="nav-link rounded-pill w-75"
+                                            th:href="@{/Article/list}">ឆ្លងការិយាល័យ</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">ឆ្លងអនុនាយកដ្ឋាន</a>
+                                        <a class="nav-link rounded-pill w-75"
+                                            th:href="@{/Article/list}">ឆ្លងអនុនាយកដ្ឋាន</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">ឆ្លងប្រធាននាយកដ្ឋាន</a>
+                                        <a class="nav-link rounded-pill w-100"
+                                            th:href="@{/Article/list}">ឆ្លងប្រធាននាយកដ្ឋាន</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">ឆ្លងអគ្គរង</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">ឆ្លងអគ្គនាយក</a>
+                                        <a class="nav-link rounded-pill w-75"
+                                            th:href="@{/Article/list}">ឆ្លងអគ្គនាយក</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">អគ្គនាយកសម្រេចរួច</a>
+                                        <a class="nav-link rounded-pill w-75"
+                                            th:href="@{/Article/list}">អគ្គនាយកសម្រេចរួច</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">Alert</a>
                                     </li>
-                                    <span class="text-success"> Total</span>
+                                    <span class="text-success font-weight-bold"> Total</span>
                                 </ul>
                             </div>
                         </div>
 
                         <div class="">
-                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse"
-                                data-target="#collapseCompanies" aria-expanded="false" aria-controls="collapseExample">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button"
+                                data-toggle="collapse" data-target="#collapseCompanies" aria-expanded="false"
+                                aria-controls="collapseExample">
                                 <div class="d-flex align-items-center justify-content-between">
                                     Companies
                                     <i class="fa-solid fa-angle-right float-right"></i>
@@ -329,8 +379,9 @@
                                 <ul class="">
                                     <li class="nav-item">
                                         <div class="">
-                                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse"
-                                                data-target="#collapseSecurities" aria-expanded="false" aria-controls="collapseExample">
+                                            <button class="w-100 btn btn-sidebar text-left text-white" type="button"
+                                                data-toggle="collapse" data-target="#collapseSecurities"
+                                                aria-expanded="false" aria-controls="collapseExample">
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     Securities
                                                     <i class="fa-solid fa-angle-right float-right"></i>
@@ -339,22 +390,28 @@
                                             <div class="collapse mt-1" id="collapseSecurities">
                                                 <ul class="">
                                                     <li class="nav-item">
-                                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">ក្រុមហ៊ុនធានាទិញមូលបត្រ</a>
+                                                        <a class="nav-link rounded-pill w-100"
+                                                            th:href="@{/Article/list}">ក្រុមហ៊ុនធានាទិញមូលបត្រ</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">ពាណិជ្ជករមូលបត្រ</a>
+                                                        <a class="nav-link rounded-pill w-100"
+                                                            th:href="@{/Article/list}">ពាណិជ្ជករមូលបត្រ</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">ឈ្មួញជើងសារមូលបត្រ</a>
+                                                        <a class="nav-link rounded-pill w-100"
+                                                            th:href="@{/Article/list}">ឈ្មួញជើងសារមូលបត្រ</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">ក្រុមហ៊ុនទីប្រឹក្សាហិរញ្ញវត្ថុ</a>
+                                                        <a class="nav-link rounded-pill w-100"
+                                                            th:href="@{/Article/list}">ក្រុមហ៊ុនទីប្រឹក្សាហិរញ្ញវត្ថុ</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">ក្រុមហ៊ុនទីប្រឹក្សាវិនិយោគ</a>
+                                                        <a class="nav-link rounded-pill w-100"
+                                                            th:href="@{/Article/list}">ក្រុមហ៊ុនទីប្រឹក្សាវិនិយោគ</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">ក្រុមហ៊ុនចែកចាយលក់មូលបត្រ</a>
+                                                        <a class="nav-link rounded-pill w-100"
+                                                            th:href="@{/Article/list}">ក្រុមហ៊ុនចែកចាយលក់មូលបត្រ</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -363,8 +420,9 @@
 
                                     <li class="nav-item">
                                         <div class="">
-                                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse"
-                                                data-target="#collapseDerivative" aria-expanded="false" aria-controls="collapseExample">
+                                            <button class="w-100 btn btn-sidebar text-left text-white" type="button"
+                                                data-toggle="collapse" data-target="#collapseDerivative"
+                                                aria-expanded="false" aria-controls="collapseExample">
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     Derivative
                                                     <i class="fa-solid fa-angle-right float-right"></i>
@@ -373,10 +431,12 @@
                                             <div class="collapse mt-1" id="collapseDerivative">
                                                 <ul class="">
                                                     <li class="nav-item">
-                                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">ក្រុមហ៊ុនសមភាគីកណ្តាល</a>
+                                                        <a class="nav-link rounded-pill w-100"
+                                                            th:href="@{/Article/list}">ក្រុមហ៊ុនសមភាគីកណ្តាល</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">ឈ្មួញជើងសារឧបករណ៍និស្សន្ទ</a>
+                                                        <a class="nav-link rounded-pill w-100"
+                                                            th:href="@{/Article/list}">ឈ្មួញជើងសារឧបករណ៍និស្សន្ទ</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -385,8 +445,9 @@
 
                                     <li class="nav-item">
                                         <div class="">
-                                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse"
-                                                data-target="#collapseCIS" aria-expanded="false" aria-controls="collapseExample">
+                                            <button class="w-100 btn btn-sidebar text-left text-white" type="button"
+                                                data-toggle="collapse" data-target="#collapseCIS" aria-expanded="false"
+                                                aria-controls="collapseExample">
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     CIS
                                                     <i class="fa-solid fa-angle-right float-right"></i>
@@ -395,20 +456,25 @@
                                             <div class="collapse mt-1" id="collapseCIS">
                                                 <ul class="">
                                                     <li class="nav-item">
-                                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">ក្រុមហ៊ុនគ្រប់គ្រងមូលនិធិ</a>
+                                                        <a class="nav-link rounded-pill w-100"
+                                                            th:href="@{/Article/list}">ក្រុមហ៊ុនគ្រប់គ្រងមូលនិធិ</a>
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link rounded-pill w-100"
                                                             th:href="@{/Article/list}">ក្រុមហ៊ុនគ្រប់គ្រងមូលនិធិក្រោដហ្វាន់ឌីងអន្តរការី</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">ក្រុមហ៊ុនថែរក្សាទ្រព្យសម្បតិ្តជំនួស</a>
+                                                        <a class="nav-link rounded-pill w-100"
+                                                            th:href="@{/Article/list}">ក្រុមហ៊ុនថែរក្សាទ្រព្យសម្បតិ្តជំនួស</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">ក្រុមហ៊ុនចែកចាយលក់ ទិញត្រលប់មកវិញ​ ឬទូទាត់</a>
+                                                        <a class="nav-link rounded-pill w-100"
+                                                            th:href="@{/Article/list}">ក្រុមហ៊ុនចែកចាយលក់
+                                                            ទិញត្រលប់មកវិញ​ ឬទូទាត់</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">ក្រុមហ៊ុនអភិបាលមូលនិធិ</a>
+                                                        <a class="nav-link rounded-pill w-100"
+                                                            th:href="@{/Article/list}">ក្រុមហ៊ុនអភិបាលមូលនិធិ</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -421,24 +487,29 @@
                                         <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">AIP</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">Stop Business</a>
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">Stop
+                                            Business</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">Suspend Business</a>
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">Suspend
+                                            Business</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">Expired License</a>
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">Expired
+                                            License</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">Expire in 70days</a>
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/Article/list}">Expire in
+                                            70days</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
 
                         <div class="">
-                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse"
-                                data-target="#collapseMeeting" aria-expanded="false" aria-controls="collapseExample">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button"
+                                data-toggle="collapse" data-target="#collapseMeeting" aria-expanded="false"
+                                aria-controls="collapseExample">
                                 <div class="d-flex align-items-center justify-content-between">
                                     Meeting
                                     <i class="fa-solid fa-angle-right float-right"></i>
@@ -470,8 +541,9 @@
                         </div>
 
                         <div class="">
-                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse"
-                                data-target="#collapseReminders" aria-expanded="false" aria-controls="collapseExample">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button"
+                                data-toggle="collapse" data-target="#collapseReminders" aria-expanded="false"
+                                aria-controls="collapseExample">
                                 <div class="d-flex align-items-center justify-content-between">
                                     Reminders
                                     <i class="fa-solid fa-angle-right float-right"></i>
@@ -491,8 +563,9 @@
                         </div>
 
                         <div class="">
-                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse"
-                                data-target="#collapseReports" aria-expanded="false" aria-controls="collapseExample">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button"
+                                data-toggle="collapse" data-target="#collapseReports" aria-expanded="false"
+                                aria-controls="collapseExample">
                                 <div class="d-flex align-items-center justify-content-between">
                                     Reports
                                     <i class="fa-solid fa-angle-right float-right"></i>
@@ -524,15 +597,17 @@
                                     </li>
 
                                     <li class="nav-item mt-3">
-                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">Not Submit Yet</a>
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">Not Submit
+                                            Yet</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
 
                         <div class="">
-                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse"
-                                data-target="#collapseResult" aria-expanded="false" aria-controls="collapseExample">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button"
+                                data-toggle="collapse" data-target="#collapseResult" aria-expanded="false"
+                                aria-controls="collapseExample">
                                 <div class="d-flex align-items-center justify-content-between">
                                     Results
                                     <i class="fa-solid fa-angle-right float-right"></i>
@@ -562,37 +637,37 @@
                                     </li>
                                     <li class="nav-item mt-2">
                                         <!-- <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">Upcoming</a> -->
-                                         <input class="form-control" value="From" type="date">
-                                         <input class="form-control mt-2" value="To" type="date">
+                                        <input class="form-control" value="From" type="date">
+                                        <input class="form-control mt-2" value="To" type="date">
                                     </li>
                                     <li class="nav-item mt-2">
                                         <div class="">
                                             <div class="row">
-                                                <div class="col-3">
-                                                    <button class="btn btn-primary"><i class="fa fa-square-poll-vertical"></i></button>
+                                                <div class="col-4">
+                                                    <button class="btn btn-primary">📊</button>
                                                 </div>
-                                                <div class="col-3">
+                                                <div class="col-4">
                                                     <button class="btn btn-primary">👮🏻</button>
                                                 </div>
-                                                <div class="col-3">
+                                                <div class="col-4">
                                                     <button class="btn btn-primary">🧑🏻‍🎓</button>
                                                 </div>
-                                                <div class="col-3">
+                                                <div class="col-4 mt-1">
                                                     <button class="btn btn-primary">📄</button>
                                                 </div>
-                                                <div class="col-3">
+                                                <div class="col-4 mt-1">
                                                     <button class="btn btn-primary">✅</button>
                                                 </div>
-                                                <div class="col-3">
+                                                <div class="col-4 mt-1">
                                                     <button class="btn btn-primary">🗄</button>
                                                 </div>
-                                                <div class="col-3">
+                                                <div class="col-4 mt-1">
                                                     <button class="btn btn-primary">📝</button>
                                                 </div>
-                                                <div class="col-3">
+                                                <div class="col-4 mt-1">
                                                     <button class="btn btn-primary">🧑🏻‍🏫</button>
                                                 </div>
-                                                <div class="col-3">
+                                                <div class="col-4 mt-1">
                                                     <button class="btn btn-primary">👩‍👩‍👦‍👦</button>
                                                 </div>
                                             </div>
@@ -601,12 +676,265 @@
                                     <li class="nav-item mt-2">
                                         <textarea name="" id="" class="form-control"></textarea>
                                     </li>
-                                    
                                 </ul>
                             </div>
                         </div>
 
+                        <div class="">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse"
+                                data-target="#collapseDivisions" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    Divisions
+                                    <i class="fa-solid fa-angle-right float-right"></i>
+                                </div>
+                            </button>
+                            <div class="collapse mt-1" id="collapseDivisions">
+                                <ul class="">
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/categorys}">License</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/products}">CIS</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/categorys}">Offsite</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/products}">Onsite</a>
+                                    </li>
+                                    <span class="font-weight-bold text-success">Total</span>
+                                </ul>
+                            </div>
+                        </div>
 
+                        <div class="">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button">
+                                បញ្ជីការងារខ្ញុំ
+                            </button>
+                        </div>
+
+                        <div class="">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse"
+                                data-target="#collapseApdPerson" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    Apd Person
+                                    <i class="fa-solid fa-angle-right float-right"></i>
+                                </div>
+                            </button>
+                            <div class="collapse mt-1" id="collapseApdPerson">
+                                <ul class="">
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/categorys}">អភិបាលទទួលស្គាល់គុណវុឌ្ឍិ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/products}">នាយកប្រតិបត្តិ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/categorys}">ប្រធានប្រតិបត្តិការ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/products}">ប្រធានភ្នាក់ងារក្រុមហ៊ុនមូលបត្រ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/categorys}">ប្រធានភ្នាក់ងារផ្តល់ប្រឹក្សាហិរញ្ញវត្ថុ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/products}">បុគ្គលិកជំនាញផ្នែកច្បាប់</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/categorys}">ភ្នាក់ងារក្រុមហ៊ុនមូលបត្រ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/products}">ភ្នាក់ងារផ្តល់ប្រឹក្សាហិរញ្ញវត្ថុ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/categorys}">ភ្នាក់ងារផ្តល់ប្រឹក្សាវិនិយោគ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/products}">ភ្នាក់ងារចែកចាយលក់មូលបត្រ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/categorys}">ប្រធានផ្នែកគ្រប់គ្រងហានិភ័យ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/products}">ប្រធានផ្នែក</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/categorys}">ប្រធានផ្នែកព័ត៌មានវិទ្យា</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/products}">ភ្នាក់ងារជើងសារឧបករណ៍និស្សន្ទ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/categorys}">ភ្នាក់ងារគ្រប់គ្រងមូលនិធិ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/products}">ភ្នាក់ងារក្រោធហ្វាន់ឌីង</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/categorys}">គណនេយ្យករជំនាញមូលនិធិ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/products}">ភ្នាក់ងារចែកចាយលក់មូលនិធិ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/categorys}">សមាជិកគណៈកម្មាធិការវិនិយោគ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-100" th:href="@{/products}">មន្រ្តីទទួលបន្ទុក</a>
+                                    </li>
+                                    
+                                    <div class="mt-3">
+                                        <li class="nav-item">
+                                            <a class="nav-link rounded-pill w-75" th:href="@{/categorys}">Uncheck</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link rounded-pill w-75" th:href="@{/products}">Mistakes</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link rounded-pill w-75" th:href="@{/categorys}">Corrected</a>
+                                        </li>
+                                    </div>
+
+                                    <div class="">
+                                        <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse"
+                                            data-target="#collapseRevenues" aria-expanded="false" aria-controls="collapseExample">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                Revenues
+                                                <i class="fa-solid fa-angle-right float-right"></i>
+                                            </div>
+                                        </button>
+                                        <div class="collapse mt-1" id="collapseRevenues">
+                                            <ul class="">
+                                                <li class="nav-item">
+                                                    <a class="nav-link rounded-pill w-75" th:href="@{/categorys}">Uncheck</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link rounded-pill w-75" th:href="@{/products}">Mistakes</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link rounded-pill w-75" th:href="@{/categorys}">Corrected</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse"
+                                data-target="#collapseActionPlan" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    Action Plan
+                                    <i class="fa-solid fa-angle-right float-right"></i>
+                                </div>
+                            </button>
+                            <div class="collapse mt-1" id="collapseActionPlan">
+                                <ul class="">
+                                    <li class="nav-item">
+                                        <!-- <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">Reminds</a> -->
+                                        <select name="" id="" class="form-control">
+                                            <option value="">2022</option>
+                                            <option value="">2023</option>
+                                            <option value="">2024</option>
+                                        </select>
+                                    </li>
+                                    <li class="mt-3">
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/categorys}">Action Plan</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse"
+                                data-target="#collapseToDo" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    To do?
+                                    <i class="fa-solid fa-angle-right float-right"></i>
+                                </div>
+                            </button>
+                            <div class="collapse mt-1" id="collapseToDo">
+                                <ul class="">
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/Article/list}">To do</a>
+                                    </li>
+                                    <li class="mt-3">
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/categorys}">Uncheck</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/categorys}">Mistakes</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/categorys}">Corrected</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse"
+                                data-target="#collapseAttendances" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    Attendances
+                                    <i class="fa-solid fa-angle-right float-right"></i>
+                                </div>
+                            </button>
+                            <div class="collapse mt-1" id="collapseAttendances">
+                                <ul class="">
+                                    <li class="nav-item">
+                                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                            <input type="radio" class="btn-check mb-2" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                                            <label class="mr-2" for="btnradio1">Normal</label>
+                                        
+                                            <input type="radio" class="btn-check mb-2" name="btnradio" id="btnradio2" autocomplete="off">
+                                            <label class="mr-2" for="btnradio2">Sick</label>
+                                        
+                                            <input type="radio" class="btn-check mb-2" name="btnradio" id="btnradio3" autocomplete="off">
+                                            <label class="mr-2" for="btnradio3">Covid</label>
+                                        </div>
+                                    </li>
+                                    <li class="mt-3">
+                                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                            <input type="radio" class="btn-check mb-2" name="btnradio" id="btnradio4" autocomplete="off" checked>
+                                            <label class="mr-2" for="btnradio4">ប្រចាំការ</label>
+                                        
+                                            <input type="radio" class="btn-check mb-2" name="btnradio" id="btnradio5" autocomplete="off">
+                                            <label class="mr-2" for="btnradio5">Mission</label>
+                                        
+                                            <input type="radio" class="btn-check mb-2" name="btnradio" id="btnradio6" autocomplete="off">
+                                            <label class="mr-2" for="btnradio6">សុំច្បាប់</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="">
+                            <button class="w-100 btn btn-sidebar text-left text-white" type="button" data-toggle="collapse"
+                                data-target="#collapseOnsite" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    Onsite
+                                    <i class="fa-solid fa-angle-right float-right"></i>
+                                </div>
+                            </button>
+                            <div class="collapse mt-1" id="collapseOnsite">
+                                <ul class="">
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/categorys}">Onsite</a>
+                                    </li>
+                                    <li class="nav-item mt-3">
+                                        <a class="nav-link rounded-pill w-75" th:href="@{/categorys}">Daily Check</a>
+                                    </li>
+                                    <li class="nav-item mt-3">
+                                        <span class="text-danger">+0</span>
+                                    </li>
+                                    <li class="nav-item mt-3">
+                                        <span class="text-success">This Month</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
 
                     </div>
                 </nav>
@@ -618,7 +946,6 @@
             </div>
         </div>
     </div>
-    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -628,18 +955,18 @@
     <script src="../static/chart/chart-pie-demo.js"></script>
     <script>
         $(document).ready(function () {
-                // Prevent the main dropdown from closing when interacting with the nested dropdown
-                $('#dropdownLeft').on('click', function (e) {
-                    e.stopPropagation(); // Prevent the click event from bubbling up
-                    $(this).next('.dropdown-menu').toggle(); // Toggle the nested dropdown
-                });
+            // Prevent the main dropdown from closing when interacting with the nested dropdown
+            $('#dropdownLeft').on('click', function (e) {
+                e.stopPropagation(); // Prevent the click event from bubbling up
+                $(this).next('.dropdown-menu').toggle(); // Toggle the nested dropdown
+            });
 
-                // Close nested dropdown if clicking outside
-                $(document).on('click', function (e) {
-                    if (!$(e.target).closest('#dropdownLeft').length) {
-                        $('.dropdown-menu').hide(); // Hide all dropdown menus
-                    }
-                });
+            // Close nested dropdown if clicking outside
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('#dropdownLeft').length) {
+                    $('.dropdown-menu').hide(); // Hide all dropdown menus
+                }
+            });
 
             // Ensure clicking on the main dropdown toggles its menu
             $('#dropdownMenuButton').on('click', function (e) {
@@ -647,30 +974,13 @@
                 $(this).next('.dropdown-menu').toggle(); // Toggle the main dropdown
             });
 
-            // // Handle form submission via AJAX
-            // $('#changePasswordForm').on('submit', function (e) {
-            //     alert();
-            //     e.preventDefault(); // Prevent default form submission
-            //     $.ajax({
-            //         url: $(this).attr('action'),
-            //         type: $(this).attr('method'),
-            //         data: $(this).serialize(),
-            //         success: function (response) {
-            //             alert(response); // Show success message
-            //             $('#exampleModal').modal('hide'); // Close the modal
-            //         },
-            //         error: function (xhr) {
-            //             alert(xhr.responseText); // Show error message
-            //         }
-            //     });
-            // });
-        });
-        
-        function changeLanguage(lang) {
-            if (lang) {
-                window.location.href = "?lang=" + lang;
+            function changeLanguage(lang) {
+                if (lang) {
+                    window.location.href = "?lang=" + lang;
+                }
             }
-        }
+        });
     </script>
 </body>
+
 </html>
