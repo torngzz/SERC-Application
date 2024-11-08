@@ -1,6 +1,62 @@
-body {
-    font-size: 18px;
+
+#header-bar {
+    z-index: 502;
 }
+
+#sidebar {
+    z-index: 501;
+    min-height: 100vh;
+    transition: all 0.3s;
+    position: sticky;
+}
+
+#lang option:first-child {
+    display: none;
+}
+
+.nav-link {
+    color: #fff !important;
+}
+
+.nav-link:hover {
+    /* color: #fff !important; */
+    background-color: rgb(221, 184, 77);
+    color: black;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* background-color: #fff !important; */
+}
+
+.btn-sidebar:focus,
+.btn-sidebar:active,
+.btn-sidebar:focus-visible {
+    border: 0px transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+.primary-color{
+    background-color: rgb(14, 46, 134) !important;
+}
+.btn-sidebar:hover {
+    background-color: #0d6efd !important;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0px;
+    /* Remove default list style */
+}
+
+.dropdown-menu {
+    min-width: 100%;
+    /* Ensures dropdown menu matches the width of the button */
+}
+
+/* Hide dropdown icon for buttons with the custom class */
+.no-dropdown-icon::after {
+    display: none;
+    /* Hide the default dropdown icon */
+}
+
 .primary-color{
     background-color: rgb(14, 46, 134) !important;
 }
@@ -10,16 +66,6 @@ body {
 
 .table-container, .form-container {
     margin-top: 20px;
-}
-
-/* Media queries */
-@media (max-width: 1400px) {
-    #layout {
-        z-index: 100;
-    }
-    #content {
-        z-index: 99;
-    }
 }
 
 /* Media queries */
