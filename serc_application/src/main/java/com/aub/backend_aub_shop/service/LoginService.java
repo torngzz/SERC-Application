@@ -1,6 +1,7 @@
 package com.aub.backend_aub_shop.service;
 
 import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -50,4 +51,18 @@ public class LoginService {
       // Save the updated user object
       userRepo.save(user);
   }
+
+  public Optional<UserModel> findEmail(String email) {
+    return userRepo.findByEmail(email);
+  }
+
+  public void updatePassword(String email, String newPassword) {
+    UserModel user = userRepo.findByEmail(email)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+    user.setPassword(passwordEncoder.encode(newPassword));
+    user.setUpdatedDate(new Date());
+    userRepo.save(user);
+  }
+
 }
