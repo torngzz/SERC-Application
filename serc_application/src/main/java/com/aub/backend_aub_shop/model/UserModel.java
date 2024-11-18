@@ -39,6 +39,15 @@ public class UserModel implements UserDetails {
     private Long newPassword;
     private Long cfPassword;
     private int status;
+    private int totalUser;
+
+    public int getTotalUser() {
+        return totalUser;
+    }
+
+    public void setTotalUser(int totalUser) {
+        this.totalUser = totalUser;
+    }
 
     @OneToMany(mappedBy = "user")
     private List<ArticleModel> articles;

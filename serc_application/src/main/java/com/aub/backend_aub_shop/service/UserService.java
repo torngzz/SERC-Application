@@ -258,4 +258,8 @@ public class UserService implements UserDetailsService {
             }
         }
     }
+
+    public int CountTotalUser() {
+        return userRepository.countUsers();
+    }
 }

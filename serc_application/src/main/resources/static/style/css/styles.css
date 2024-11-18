@@ -4,6 +4,8 @@
 }
 
 #sidebar {
+    display: flex;
+    flex-direction: column;
     z-index: 501;
     min-height: 100vh;
     transition: all 0.3s;
@@ -85,4 +87,8 @@ ul {
     #content.active {
         margin-left: 250px;
     }
+}
+
+a:hover{
+    text-decoration: none;
 }
