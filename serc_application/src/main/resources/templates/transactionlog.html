@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+  <meta charset="UTF-8" />
+  <title>Transaction Log</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" th:href="@{/style/css/styles.css}" />
+
+  <style>
+    table.table td, table.table th { 
+      white-space: nowrap; 
+    }
+    .table-container {
+       overflow-x: auto;
+       -webkit-overflow-scrolling: touch;
+       }
+
+       @media (max-width: 768px) {
+        /* For small screens */
+        .col-md-2 {
+          flex: 0 0 100%; /* Make sidebar take full width on small screens */
+        }
+      }
+      @media (min-width: 769px) and (max-width: 1400px) {
+        /* For medium screens */
+        .col-md-2 {
+          flex: 0 0 100%; /* Make sidebar take full width on small screens */
+        }
+      }
+  </style>
+
+</head>
+<body class="bg-dark">
+  <div th:fragment="content" class="mt-5">
+      <h2>Transaction Log</h2>
+      
+      <!-- Search Form -->
+      <div class="search-box m-2">
+        <form th:action="@{/transaction/getAllTransactions}" method="get" class="mx-2">
+          <div class="row">
+            <div class="col-5 m-0 p-0">
+              <input type="text"
+                     name="username"
+                     class="form-control w-100"
+                     placeholder="Search user by username..." 
+                     th:value="${username}"/>
+            </div>
+            <div class="col-3 m-0 p-0">
+              <button type="submit" class="btn btn-primary float-left" th:text="#{btn-search}">
+                <i class="bi bi-search"></i> Search
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4 mt-3">
+      <div class="card-header py-3">
+        <div class="float-left w-25">
+          <h4 class="m-0 font-weight-bold text-primary d-flex align-items-center" > Transaction Data Table</h4>
+        </div>
+        <!-- Page Size Dropdown -->
+        <div class="form-group d-flex flex-row float-right m-0">
+          <label for="pageSize" class="d-flex align-items-center m-0">Show</label>
+          <form th:action="@{/transaction/getAllTransactions}" method="get" class="mx-1">
+            <select class="form-control" 
+                    name="pageSize"
+                    id="pageSize"
+                    onchange="this.form.submit()">
+                    <option value="10" th:selected="${pageSize == 10}">10</option>
+                    <option value="20" th:selected="${pageSize == 20}">20</option>
+                    <option value="50" th:selected="${pageSize == 50}">50</option>
+                    <option value="100" th:selected="${pageSize == 100}">100</option>
+            </select>
+          </form>
+          <label for="pageSize" class="d-flex align-items-center m-0">items per page</label>
+        </div>
+      </div>
+      <!-- Transactions Table -->
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead style="text-align: center">
+                <tr>
+                  <th>No</th>
+                  <th>Username</th>
+                  <th>Role</th>
+                  <th>Action</th>
+                  <th>Login Date</th>
+                  <th>Logout Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody style="text-align: center">
+                <tr th:each="transaction, stat : ${transactionlist}">
+                  <!-- <td th:text="${stat.index + 1}"></td> -->
+                  <td th:text="${transaction.username}">Username</td>
+                  <td th:text="${transaction.role}">Role</td>
+                  <td th:text="${transaction.action}">Action</td>
+                  <td th:text="${#dates.format(transaction.loginDate, 'dd-MMM-yyyy HH:mm:ss')}"></td>
+                  <td th:text="${#dates.format(transaction.logoutDate, 'dd-MMM-yyyy HH:mm:ss')}"></td>
+                  <td th:text="${transaction.status}">Status</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="mt-2">
+            <div class="pagenumber float-right">
+                <nav aria-label="Page navigation">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <ul class="pagination">
+                            <!-- Previous Button -->
+                            <li th:class="${pageNumber == 0} ? 'page-item disabled' : 'page-item'">
+                                <a class="page-link" th:href="@{/getAllTransactions(pageNumber=${pageNumber - 1}, pageSize=${pageSize})}" aria-label="Previous">
+                                    Previous
+                                </a>
+                            </li>
+        
+                            <!-- First Page -->
+                            <li th:class="${pageNumber == 0} ? 'page-item active' : 'page-item'">
+                                <a class="page-link" th:href="@{/getAllTransactions(pageNumber=0, pageSize=${pageSize})}">1</a>
+                            </li>
+        
+                            <!-- Ellipses before current page if necessary -->
+                            <li th:if="${pageNumber > 2}" class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+        
+                            <!-- Pages around the current page -->
+                            <li th:each="pageNum : ${#numbers.sequence(pageNumber - 1, pageNumber + 1)}"
+                                th:if="${pageNum > 0 and pageNum < totalPages - 1}"
+                                th:class="${pageNum == pageNumber} ? 'page-item active' : 'page-item'">
+                                <a class="page-link" th:href="@{/getAllTransactions(pageNumber=${pageNum}, pageSize=${pageSize})}"
+                                  th:text="${pageNum + 1}"></a>
+                            </li>
+        
+                            <!-- Ellipses after current page if necessary -->
+                            <li th:if="${pageNumber < totalPages - 3}" class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+        
+                            <!-- Last Page -->
+                            <li th:if="${totalPages > 1}" th:class="${pageNumber == totalPages - 1} ? 'page-item active' : 'page-item'">
+                                <a class="page-link" th:href="@{/getAllTransactions(pageNumber=${totalPages - 1}, pageSize=${pageSize})}"
+                                  th:text="${totalPages}"></a>
+                            </li>
+        
+                            <!-- Next Button -->
+                            <li th:class="${pageNumber == totalPages - 1} ? 'page-item disabled' : 'page-item'">
+                                <a class="page-link" th:href="@{/getAllTransactions(pageNumber=${pageNumber + 1}, pageSize=${pageSize})}" aria-label="Next">
+                                    Next
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <script>
+    function goToPage(pageNumber) {
+      if (pageNumber < 0 || pageNumber >= totalPages) {
+        return; // Prevent invalid page numbers
+      }
+      const params = new URLSearchParams(window.location.search);
+      params.set("pageNumber", pageNumber);
+      params.set(
+        "pageSize",
+        document.querySelector('select[name="pageSize"]')
+          ? document.querySelector('select[name="pageSize"]').value
+          : 10
+      );
+      window.location.search = params.toString();
+    }
+
+    // Ensure totalPages is defined for validation within goToPage
+    const totalPages = /*[[${totalPages}]]*/ 1;
+  </script>
+
+  <th:block th:include="~{layout :: footer}"></th:block>
+
+</body>
+</html>

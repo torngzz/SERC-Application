@@ -15,7 +15,7 @@ public class UserSessionUtils {
 
     public static Object getAttribute(String attrName, HttpSession session) 
     {
-    return session.getAttribute(attrName);
+        return session.getAttribute(attrName);
     }
 
     public static UserSessionManager getUserSessionManager(HttpSession session) {
