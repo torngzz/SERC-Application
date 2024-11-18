@@ -32,4 +32,7 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
 
     @Query("SELECT u.status FROM UserModel u WHERE u.status = 1 AND u.username = :username")
     int checkStatus(@Param("username") String username);
+
+    @Query("SELECT COUNT(u) FROM UserModel u")
+    int countUsers();
 }
