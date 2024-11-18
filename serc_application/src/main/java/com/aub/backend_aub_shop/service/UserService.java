@@ -163,6 +163,7 @@ public class UserService implements UserDetailsService {
             if (user.getUpdatedDate() != null) {
                 dto.setUpdatedDate(user.getUpdatedDate());
             }
+            
             dto.setStatus(getStatus(user.getStatus()));
             dto.setCreatedByUsername(userService.getUsernameById(user.getCreatedBy()));
             dto.setUpdatedByUsername(userService.getUsernameById(user.getUpdatedBy()));

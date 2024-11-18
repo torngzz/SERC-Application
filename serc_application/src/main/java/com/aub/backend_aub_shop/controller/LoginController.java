@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aub.backend_aub_shop.model.UserModel;
 import com.aub.backend_aub_shop.service.LoginService;
@@ -65,9 +66,6 @@ public class LoginController {
 
     @GetMapping("/forgot-password")
     public String showForgotPasswordPage() {
-        // return "login/forgot-password"; // This assumes you have a corresponding Thymeleaf or HTML template
-        // Optional<UserModel> users = loginService.findEmail(email);
-        // m.addAttribute("user", users.orElse(new UserModel()));
         return "login/forgot-password";
     }
     
@@ -89,7 +87,6 @@ public class LoginController {
                     model.addAttribute("emailExists", true); // Re-show password fields
                     return "login/forgot-password";
                 }
-
                 // Update password if the passwords match
                 loginService.updatePassword(email, newPassword);
                 model.addAttribute("successMessage", "Password updated successfully!");
@@ -117,28 +114,48 @@ public class LoginController {
             model.addAttribute("errorMessage", "Passwords do not match.");
             return "login/reset-password";
         }
-
         loginService.updatePassword(email, newPassword);
         model.addAttribute("successMessage", "Password updated successfully!");
         return "login/login"; // Redirect to login after successful reset
     }
+    // Alert using sweetalert with no ajax
+    // // @ResponseBody
+    // @PostMapping("/change-password")
+    // public String changePassword(@RequestParam("oldPassword") String oldPassword,
+    //                             @RequestParam("newPassword") String newPassword,
+    //                             @RequestParam("cfPassword") String confirmPassword,
+    //                             RedirectAttributes redirectAttributes) {
+
+    //     String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    //     log.info("Entering change password with oldPassword={}, newPassword={}, confirmPassword={}", oldPassword, newPassword, confirmPassword);
+
+    //     try {
+    //         loginService.changePassword(username, oldPassword, newPassword, confirmPassword);
+    //         redirectAttributes.addFlashAttribute("successMessage", "Password changed successfully.");
+    //     } catch (Exception e) {
+    //         redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+    //     }
+    //     return "redirect:/users"; // Flash attributes persist in the redirect
+    // }
 
     // @ResponseBody
     @PostMapping("/change-password")
-    public String changePassword(   @RequestParam("oldPassword") String oldPassword,
-                                    @RequestParam("newPassword") String newPassword,
-                                    @RequestParam("cfPassword") String confirmPassword) {
-        Map<String, Object> response = new HashMap<>();
+    @ResponseBody // Add this to return JSON directly
+    public Map<String, String> changePassword(
+            @RequestParam("oldPassword") String oldPassword,
+            @RequestParam("newPassword") String newPassword,
+            @RequestParam("cfPassword") String confirmPassword) {
+
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        log.info("Entering changePassword method with parameters: oldPassword={}, newPassword={}, confirmPassword={}", oldPassword, newPassword, confirmPassword);
+        Map<String, String> response = new HashMap<>();
         try {
             loginService.changePassword(username, oldPassword, newPassword, confirmPassword);
             response.put("status", "success");
             response.put("message", "Password changed successfully.");
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             response.put("status", "error");
             response.put("message", e.getMessage());
         }
-        return "redirect:/users"; // Return JSON response
+        return response;
     }
 }
