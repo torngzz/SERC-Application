@@ -1,9 +1,10 @@
 package com.aub.backend_aub_shop.dto;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class UserDTO {
-    private Long id;
+    private UUID id;
     private String username;
     private String role;
     private String createdByUsername;
@@ -13,11 +14,11 @@ public class UserDTO {
     private String status;
 
     // Getters and Setters
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

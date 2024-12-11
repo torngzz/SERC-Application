@@ -8,8 +8,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.aub.backend_aub_shop.model.TransactionModel;
 import com.aub.backend_aub_shop.model.UserModel;
 import com.aub.backend_aub_shop.repository.UserRepository;
+import com.aub.backend_aub_shop.util.LogAction;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class LoginService {
@@ -59,11 +64,18 @@ public class LoginService {
   public void updatePassword(String email, String newPassword) {
     UserModel user = userRepo.findByEmail(email)
             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
     user.setPassword(passwordEncoder.encode(newPassword));
     user.setUpdatedDate(new Date());
     userRepo.save(user);
   }
 
-  
+  public void logout(HttpServletRequest request, TransactionModel tran){
+        HttpSession session = request.getSession();
+        UserModel userId = (UserModel) session.getAttribute("User ID:");
+        LogAction logAction = LogAction.LOGOUT;
+        tran.setUsername(userId); // Set the UserModel here
+        tran.setAction(logAction);
+        tran.setStatus("");
+        tran.setTransanctionDate(new Date());
+  }
 }

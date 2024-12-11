@@ -1,6 +1,7 @@
 package com.aub.backend_aub_shop.repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.aub.backend_aub_shop.model.UserModel;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserModel, Long> {
+public interface UserRepository extends JpaRepository<UserModel, UUID> {
 
     Optional<UserModel> findByUsername(String username);
 
@@ -22,7 +23,7 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
 
     Page<UserModel> findByUsernameContaining(String username, Pageable pageable);
 
-    Optional<UserModel> findByUsernameOrEmailOrPhoneAndIdNot(String username, String email, String phone, Long id);
+    Optional<UserModel> findByUsernameOrEmailOrPhoneAndIdNot(String username, String email, String phone, UUID id);
 
     boolean existsByUsername(String username);
 
@@ -35,4 +36,13 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
 
     @Query("SELECT COUNT(u) FROM UserModel u")
     int countUsers();
+    
+    // @Query(value = "SELECT * FROM tbl_user WHERE id = UUID_TO_BIN(:id)", nativeQuery = true)
+    // UserModel findByIdWithUuidToBin(@Param("id") UUID id);
+    // @Query(value = "SELECT * FROM tbl_user WHERE id = UUID_TO_BIN(:id, 1)", nativeQuery = true)
+    // UserModel findByIdWithUuidToBin(@Param("id") UUID id);
+    @Query(value = "SELECT * FROM tbl_user WHERE id = :id", nativeQuery = true)
+    UserModel findByIdWithBinaryUuid(@Param("id") byte[] id);
+
+
 }

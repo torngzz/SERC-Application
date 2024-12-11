@@ -1,20 +1,22 @@
 package com.aub.backend_aub_shop.dto;
 
-import java.time.LocalDateTime;
+import java.util.Date;
+
+import com.aub.backend_aub_shop.util.LogAction;
 
 public class TransactionDTO {
     private Long id;
     private String username;
     private String role;
-    private LocalDateTime loginDate;
-    private String action;
+    private Date loginDate;
+    private LogAction action;
     private String status;
-    private LocalDateTime logoutDate;
+    private Date logoutDate;
 
-    public LocalDateTime getLogoutDate() {
+    public Date getLogoutDate() {
         return logoutDate;
     }
-    public void setLogoutDate(LocalDateTime logouDate) {
+    public void setLogoutDate(Date logouDate) {
         this.logoutDate = logouDate;
     }
     public Long getId() {
@@ -35,16 +37,16 @@ public class TransactionDTO {
     public void setRole(String role) {
         this.role = role;
     }
-    public LocalDateTime getLoginDate() {
+    public Date getLoginDate() {
         return loginDate;
     }
-    public void setLoginDate(LocalDateTime loginDate) {
+    public void setLoginDate(Date loginDate) {
         this.loginDate = loginDate;
     }
-    public String getAction() {
+    public LogAction getAction() {
         return action;
     }
-    public void setAction(String action) {
+    public void setAction(LogAction action) {
         this.action = action;
     }
     public String getStatus() {

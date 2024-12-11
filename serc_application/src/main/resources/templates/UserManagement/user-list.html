@@ -36,7 +36,7 @@
       <h2 th:text="#{user-title}">User Management</h2>
       
       <div class="search-box m-2">
-        <form th:action="@{/users}" method="get" class="mx-2">
+        <form th:action="@{/users/userList}" method="get" class="mx-2">
           <div class="row">
             <div class="col-5 m-0 p-0">
               <input
@@ -68,7 +68,7 @@
           <!-- Page Size Dropdown -->
           <div class="form-group d-flex flex-row float-right m-0">
             <label for="pageSize" class="d-flex align-items-center m-0">Show</label>
-            <form th:action="@{/users}" method="get" class="mx-1">
+            <form th:action="@{/users/userList}" method="get" class="mx-1">
               <select
                 class="form-control"
                 name="pageSize"
@@ -126,14 +126,14 @@
                           <ul class="pagination">
                               <!-- Previous Button -->
                               <li th:class="${currentPage == 0} ? 'page-item disabled' : 'page-item'">
-                                  <a class="page-link" th:href="@{/users(pageNumber=${currentPage - 1}, pageSize=${pageSize})}" aria-label="Previous">
+                                  <a class="page-link" th:href="@{/users/userList(pageNumber=${currentPage - 1}, pageSize=${pageSize})}" aria-label="Previous">
                                       Previous
                                   </a>
                               </li>
               
                               <!-- First Page -->
                               <li th:class="${currentPage == 0} ? 'page-item active' : 'page-item'">
-                                  <a class="page-link" th:href="@{/users(pageNumber=0, pageSize=${pageSize})}">1</a>
+                                  <a class="page-link" th:href="@{/users/userList(pageNumber=0, pageSize=${pageSize})}">1</a>
                               </li>
               
                               <!-- Ellipses before current page if necessary -->
@@ -145,7 +145,7 @@
                               <li th:each="pageNum : ${#numbers.sequence(currentPage - 1, currentPage + 1)}"
                                   th:if="${pageNum > 0 and pageNum < totalPages - 1}"
                                   th:class="${pageNum == currentPage} ? 'page-item active' : 'page-item'">
-                                  <a class="page-link" th:href="@{/users(pageNumber=${pageNum}, pageSize=${pageSize})}"
+                                  <a class="page-link" th:href="@{/users/userList(pageNumber=${pageNum}, pageSize=${pageSize})}"
                                     th:text="${pageNum + 1}"></a>
                               </li>
               
@@ -156,13 +156,13 @@
               
                               <!-- Last Page -->
                               <li th:if="${totalPages > 1}" th:class="${currentPage == totalPages - 1} ? 'page-item active' : 'page-item'">
-                                  <a class="page-link" th:href="@{/users(pageNumber=${totalPages - 1}, pageSize=${pageSize})}"
+                                  <a class="page-link" th:href="@{/users/userList(pageNumber=${totalPages - 1}, pageSize=${pageSize})}"
                                     th:text="${totalPages}"></a>
                               </li>
               
                               <!-- Next Button -->
                               <li th:class="${currentPage == totalPages - 1} ? 'page-item disabled' : 'page-item'">
-                                  <a class="page-link" th:href="@{/users(pageNumber=${currentPage + 1}, pageSize=${pageSize})}" aria-label="Next">
+                                  <a class="page-link" th:href="@{/userList(pageNumber=${currentPage + 1}, pageSize=${pageSize})}" aria-label="Next">
                                       Next
                                   </a>
                               </li>

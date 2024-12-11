@@ -53,7 +53,7 @@
                             <div class="dropdown-divider"></div>
 
                             <!-- Logout Link -->
-                            <a class="dropdown-item ml-3 btn" th:href="@{/logout}">Logout</a>
+                            <a class="dropdown-item ml-3 btn" id="logoutBtn" href="javascript:void(0);">Logout</a>
                         </div>
                     </div>
                 </div>
@@ -101,12 +101,7 @@
                 <div id="sidebar" class="col-lg-2 p-0 m-0">
                     <nav style="background-color: rgb(14, 46, 134); height: 100%;" class="d-none d-lg-block pt-5 mt-5">
                         <div class="sidebar-sticky">
-                            <div class="navbar-brand d-none d-md-block text-light text-center">
-                                <!-- <i class="fa fa-"></i> -->
-                                <!-- <img src="https://res.cloudinary.com/aquarii/image/upload/v1643954966/Securities-and-Exchange-Regulator-of-Cambodia-2.jpg"
-                                    alt="Logo" class="img-fluid" style="width: 100%; max-width: 200px;"> -->
-                                <!-- <h3>Admin Dashboard</h3> -->
-                            </div>
+
                             <div class="">
                                 <a class="btn btn-sidebar text-left text-light w-100" th:href="@{/dashboard/}">Dashboard</a>
                                 <hr style="color: white; background-color: white; border: none; height: 1px;">
@@ -121,30 +116,30 @@
                                 <div class="collapse mt-1" id="collapseUser">
                                     <ul class="">
                                         <li class="nav-item text-left d-flex justify-content-start">
-                                            <a class="nav-link rounded-pill w-75" th:href="@{/users}">User</a>
+                                            <a class="nav-link rounded-pill w-75" th:href="@{/users/userList}">User</a>
                                         </li>
                                         <li class="nav-item text-left d-flex justify-content-start">
-                                            <a class="nav-link rounded-pill w-75" th:href="@{/users}">People</a>
+                                            <a class="nav-link rounded-pill w-75" th:href="@{/users/userList}">People</a>
                                         </li>
                                         <li class="nav-item text-left d-flex justify-content-start">
-                                            <a class="nav-link rounded-pill w-75" th:href="@{/users}">ក្រុមការងារ</a>
+                                            <a class="nav-link rounded-pill w-75" th:href="@{/users/userList}">ក្រុមការងារ</a>
                                         </li>
                                         <li class="nav-item text-left d-flex justify-content-start">
-                                            <a class="nav-link rounded-pill w-75" th:href="@{/users}">Training Expired</a>
+                                            <a class="nav-link rounded-pill w-75" th:href="@{/users/userList}">Training Expired</a>
                                         </li>
                                         <li class="nav-item text-left d-flex justify-content-start">
-                                            <a class="nav-link rounded-pill w-75" th:href="@{/users}">Training Required</a>
+                                            <a class="nav-link rounded-pill w-75" th:href="@{/users/userList}">Training Required</a>
                                         </li>
                                         <li class="nav-item text-left d-flex justify-content-start">
-                                            <a class="nav-link rounded-pill w-75" th:href="@{/users}">Training
+                                            <a class="nav-link rounded-pill w-75" th:href="@{/users/userList}">Training
                                                 Registered</a>
                                         </li>
                                         <li class="nav-item text-left d-flex justify-content-start">
-                                            <a class="nav-link rounded-pill w-75" th:href="@{/users}">Rep License
+                                            <a class="nav-link rounded-pill w-75" th:href="@{/users/userList}">Rep License
                                                 Expired</a>
                                         </li>
                                         <li class="nav-item text-left d-flex justify-content-start">
-                                            <a class="nav-link rounded-pill w-75" th:href="@{/users}">Rep License 40days</a>
+                                            <a class="nav-link rounded-pill w-75" th:href="@{/users/userList}">Rep License 40days</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -866,7 +861,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <!-- <a class="btn btn-sidebar text-left text-light w-100" th:href="@{/getAllTransactions}">Transaction Log</a> -->
+                            <a class="btn btn-sidebar text-left text-light w-100" th:href="@{/getAllTransactions}">Transaction Log</a>
                         </div>
                     </nav>
                 </div>
@@ -898,6 +893,25 @@
             text: /*[[${successMessage}]]*/"Password changed successfully"
         });
     </script> -->
+    <script>
+        document.getElementById("logoutBtn").addEventListener("click", function () {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You will be logged out of your session.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Logout",
+                cancelButtonText: "Cancel"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to logout URL
+                    window.location.href = "/serc-application/logout";
+                }
+            });
+        });
+    </script>
 
     <script>
         $(document).ready(function () {

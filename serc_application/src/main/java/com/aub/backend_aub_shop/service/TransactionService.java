@@ -1,7 +1,7 @@
 package com.aub.backend_aub_shop.service;
 
-
-import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +15,7 @@ import com.aub.backend_aub_shop.model.TransactionModel;
 import com.aub.backend_aub_shop.model.UserModel;
 import com.aub.backend_aub_shop.repository.TransactionRepository;
 import com.aub.backend_aub_shop.repository.UserRepository;
+import com.aub.backend_aub_shop.util.LogAction;
 
 
 @Service
@@ -29,55 +30,38 @@ public class TransactionService {
     private TransactionService transactionService;
 
     public Page<TransactionDTO> findAll(String username, int pageNumber, int pageSize){
-        Page<TransactionModel> transaction = transactionRepository.findByUsernameContaining(username, PageRequest.of(pageNumber, pageSize));
+        Page<TransactionModel> transaction = transactionRepository.findByUsername_UsernameContaining(username, PageRequest.of(pageNumber, pageSize));
 
         return transaction.map(tran -> {
 
             TransactionDTO dto = new TransactionDTO();
-            dto.setId(tran.getId());
-            dto.setUsername(transactionService.getUsernameById(tran.getId()));
-            dto.setRole(tran.getRole());
+            dto.setId(tran.getNo());
+            // dto.setUsername(transactionService.getUsernameById());
+            // dto.setRole(tran.getRole());
             dto.setAction(tran.getAction());
             dto.setStatus(tran.getStatus());
-            dto.setLoginDate(tran.getLoginDate());
-            dto.setLogoutDate(tran.getLogoutDate());
+            // dto.setLoginDate(tran.getLoginDate());
+            // dto.setLogoutDate(tran.getLogoutDate());
 
             return dto;
         });
     }
 
-    public String getUsernameById(Long userId) {
+    public String getUsernameById(UUID userId) {
         LOGGER.info("User ID is : "  + userId);
-        if(userId == 0L){
-            return "System";
-        }
         UserModel user = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("User not found"));
         return user.getUsername();
     }
 
-     // Method to log an action
-     public void logAction(String username, String action, String role, String status, LocalDateTime loginDate, LocalDateTime logoutDate) {
-        TransactionModel log = new TransactionModel();
-        log.setUsername(username);
-        log.setAction(action);
-        log.setRole(role);
-        log.setStatus(status);
-        log.setLoginDate(loginDate);
-        log.setLogoutDate(logoutDate);
-        
-        // Save the log entry
-        transactionRepository.save(log);
-    }
+    public void logTransaction(UserModel user, LogAction action) {
+        TransactionModel transaction = new TransactionModel();
+        transaction.setUsername(user);
+        transaction.setAction(action);
+        transaction.setStatus("SUCCESS");
+        transaction.setTransanctionDate(new Date());
 
-
-    public void logLogout(String username, LocalDateTime logoutDate) {
-        // Retrieve the latest transaction log for the user where action is "Login" and logoutDate is null
-        TransactionModel lastLogin = transactionRepository.findTopByUsernameAndActionAndLogoutDateIsNullOrderByLoginDateDesc(username, "Login");
-    
-        if (lastLogin != null) {
-            lastLogin.setLogoutDate(logoutDate);
-            transactionRepository.save(lastLogin);
-        }
+        // Save transaction here (use repository directly)
+        transactionRepository.save(transaction);
     }
 }

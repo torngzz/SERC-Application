@@ -167,26 +167,46 @@
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <script>
         $(document).ready(function () {
             const passwordInput = document.querySelector('.password-input');
             const toggleIcon = document.querySelector('.password-toggle-icon');
             
-        toggleIcon.addEventListener('click', function () {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
+            toggleIcon.addEventListener('click', function () {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
 
-            this.classList.toggle('fa-eye');
-            this.classList.toggle('fa-eye-slash');
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+
+            function login() {
+                var loginObj = {
+                    Username: $('#Username').val(),
+                    Password: $('#Password').val()
+                };
+            }
         });
 
-        function login() {
-            var loginObj = {
-                Username: $('#Username').val(),
-                Password: $('#Password').val()
-            };
-            }
-        })
+        // $('#lblResult').text(sum(txtA, txtB));
+        // $('#txtResult').val(sum(txtA, txtB));
+
+    </script>
+    <!-- Error and Success Alerts -->
+    <script th:if="${errorMessage}" th:inline="javascript">
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: '[[${errorMessage}]]'
+        });
+    </script>
+    <script th:if="${successMessage}" th:inline="javascript">
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '[[${successMessage}]]'
+        });
     </script>
 </body>
 </html>

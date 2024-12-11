@@ -1,5 +1,7 @@
 package com.aub.backend_aub_shop.util;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Component;
 
 import com.aub.backend_aub_shop.model.UserSessionManager;
@@ -23,7 +25,7 @@ public class UserSessionUtils {
         return (UserSessionManager) session.getAttribute("UserSessionManager");
     }
 
-    public static Long getUserId(HttpSession session) {
+    public static UUID getUserId(HttpSession session) {
         return getUserSessionManager(session).getUserId();
     }
 
