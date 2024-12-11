@@ -3,21 +3,22 @@ package com.aub.backend_aub_shop.model;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "TBL_USER")
@@ -25,40 +26,54 @@ import jakarta.persistence.Table;
 public class UserModel implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    @Column(name = "id", columnDefinition = "BINARY(16)")
+    private UUID id;
+
+    @PrePersist
+    public void generateId() {
+        if (id == null) {
+            id = UUID.randomUUID();
+            System.out.println("Generated ID: " + id);
+        }
+    }
+
+    @Column(nullable = false, unique = true)
     private String username;
+
+    @Column(nullable = false)
     private String password;
     private String role;
     private String phone;
+
+    @Column(nullable = false, unique = true)
     private String email;
-    private Long createdBy; 
+
+    @Column(name = "created_by", columnDefinition = "BINARY(16)")
+    private UUID createdBy;
     private Date createdDate;
-    private Long updatedBy;
+
+    @Column(name = "updated_by", columnDefinition = "BINARY(16)")
+    private UUID updatedBy;
     private Date updatedDate;
+
+    @Transient
     private Long newPassword;
+
+    @Transient
     private Long cfPassword;
     private int status;
+
+    @Transient
     private int totalUser;
 
+    // Getters and setters...
     public int getTotalUser() {
         return totalUser;
     }
 
     public void setTotalUser(int totalUser) {
         this.totalUser = totalUser;
-    }
-
-    @OneToMany(mappedBy = "user")
-    private List<ArticleModel> articles;
-
-    // Getters and setters
-    public List<ArticleModel> getArticles() {
-        return articles;
-    }
-
-    public void setArticles(List<ArticleModel> articles) {
-        this.articles = articles;
     }
 
     @Override
@@ -80,30 +95,29 @@ public class UserModel implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true; // Customize based on your requirements
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true; // Customize based on your requirements
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // Customize based on your requirements
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return true; // Customize based on your requirements
+        return true;
     }
 
-    // Getter and setter methods for other fields
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -139,19 +153,19 @@ public class UserModel implements UserDetails {
         this.createdDate = createdDate;
     }
 
-    public Long getCreatedBy() {
+    public UUID getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Long createdBy) {
+    public void setCreatedBy(UUID createdBy) {
         this.createdBy = createdBy;
     }
 
-    public Long getUpdatedBy() {
+    public UUID getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(Long updatedBy) {
+    public void setUpdatedBy(UUID updatedBy) {
         this.updatedBy = updatedBy;
     }
 
@@ -186,7 +200,7 @@ public class UserModel implements UserDetails {
     public void setCfPassword(Long cfPassword) {
         this.cfPassword = cfPassword;
     }
-    
+
     public int getStatus() {
         return status;
     }
@@ -194,4 +208,4 @@ public class UserModel implements UserDetails {
     public void setStatus(int status) {
         this.status = status;
     }
-}
+}   

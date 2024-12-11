@@ -10,11 +10,14 @@ import org.springframework.stereotype.Repository;
 import com.aub.backend_aub_shop.model.TransactionModel;
 
 @Repository
-public interface TransactionRepository extends JpaRepository<TransactionModel, Long>{
-    Optional<TransactionModel> findByUsername(String usernmaeString);
+public interface TransactionRepository extends JpaRepository<TransactionModel, Long> {
 
-    Page<TransactionModel> findByUsernameContaining(String username, Pageable pageable);
+    // Correcting the method to access UserModel's 'username' field via a join
+    Optional<TransactionModel> findByUsername_Username(String username);
 
-    // Find the latest login transaction where logoutDate is null
-    TransactionModel findTopByUsernameAndActionAndLogoutDateIsNullOrderByLoginDateDesc(String username, String action);
+    // Find transactions where the username's username contains a specific string
+    Page<TransactionModel> findByUsername_UsernameContaining(String username, Pageable pageable);
+
+    // Find the latest login transaction where logoutDate is null (uncomment if needed)
+    // TransactionModel findTopByUsernameAndActionAndLogoutDateIsNullOrderByLoginDateDesc(String username, String action);
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.aub.backend_aub_shop.dto.TransactionDTO;
 import com.aub.backend_aub_shop.service.TransactionService;
 
-
 @Controller
 @RequestMapping({"", "/transaction"})
 public class TransactionController {
@@ -36,7 +35,6 @@ public class TransactionController {
 
         return "transactionlog";
     }
-
     
     // @GetMapping("/someAction")
     // public String performAction(HttpSession session) {
@@ -53,6 +51,4 @@ public class TransactionController {
 
     //     return "somePage";
     // }
-
-
 }

@@ -2,6 +2,7 @@ package com.aub.backend_aub_shop.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = {"", "/"})
+    @GetMapping(value = {"/userList"})
     public String getAllUser(
         @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,
         @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
@@ -70,7 +71,7 @@ public class UserController {
     {
         try{
             userService.create(httpRequest, userModel);
-            return "redirect:/users";
+            return "redirect:/users/userList";
         }
         catch (IllegalArgumentException e) {
             m.addAttribute("usernameError", e.getMessage());
@@ -124,18 +125,18 @@ public class UserController {
     // }
 
     @GetMapping("/edit/{id}")
-    public String UpdateById(@PathVariable("id") Long id, Model m){
+    public String UpdateById(@PathVariable("id") UUID id, Model m){
         Optional<UserModel> users = userService.findById(id);
         m.addAttribute("user", users.orElse(new UserModel()));
         return "UserManagement/edit-user";
     }
 
     @PostMapping("/update/{id}")
-    public String updateUser(@PathVariable("id") Long id, @ModelAttribute("user") UserModel users, Model m, HttpServletRequest httpRequest) {
+    public String updateUser(@PathVariable("id") UUID id, @ModelAttribute("user") UserModel users, Model m, HttpServletRequest httpRequest) {
         try {
             UserModel updateUser = userService.update(users, id, httpRequest);
             m.addAttribute("user", updateUser);
-            return "redirect:/users";
+            return "redirect:/users/userList";
         } catch (IllegalArgumentException e) {
             // Handle specific exceptions like IllegalArgumentException
             m.addAttribute("error", e.getMessage());
@@ -148,11 +149,11 @@ public class UserController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable Long id) {
+    public String deleteUser(@PathVariable UUID id) {
         userService.deleteById(id);
         Logger logger = LoggerFactory.getLogger(UserService.class);
         logger.info("User with Id" + id);
-        return "redirect:/users"; 
+        return "redirect:/users/userList"; 
     }
 
     @GetMapping("/disable/{id}")

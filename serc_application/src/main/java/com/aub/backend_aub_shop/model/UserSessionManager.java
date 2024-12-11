@@ -1,17 +1,19 @@
 package com.aub.backend_aub_shop.model;
 
+import java.util.UUID;
+
 public class UserSessionManager {
-    private Long userId;
+    private UUID userId;
     private String username;
     public UserSessionManager(){}
-    public UserSessionManager(Long userId, String username){
+    public UserSessionManager(UUID userId, String username){
         this.userId = userId;
         this.username = username;
     }
-    public Long getUserId() {
+    public UUID getUserId() {
         return userId;
     }
-    public void setUserId(Long userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
     public String getUsername() {
