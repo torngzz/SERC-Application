@@ -119,7 +119,7 @@
                                             <a class="nav-link rounded-pill w-75" th:href="@{/users/userList}">User</a>
                                         </li>
                                         <li class="nav-item text-left d-flex justify-content-start">
-                                            <a class="nav-link rounded-pill w-75" th:href="@{/users/userList}">People</a>
+                                            <a class="nav-link rounded-pill w-75" th:href="@{/people/getPeople}">People</a>
                                         </li>
                                         <li class="nav-item text-left d-flex justify-content-start">
                                             <a class="nav-link rounded-pill w-75" th:href="@{/users/userList}">ក្រុមការងារ</a>
@@ -873,11 +873,19 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://kit.fontawesome.com/4000b889e3.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
+    <div th:fragment="scripts">
+        <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+        <script src="/serc-application/style/vendor/jquery/jquery-3.5.1.min.js"></script>
+        <script src="/serc-application/style/js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://kit.fontawesome.com/4000b889e3.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <!-- Include page-specific scripts -->
+        <!-- <div th:replace="~{UserManagement/People/add-people :: customScripts}"></div> -->
+        <div th:insert="~{UserManagement/People/add-people :: customScripts}"></div>
+    </div>
 
     <!-- <script th:if="${errorMessage}" th:inline="javascript">
         Swal.fire({
