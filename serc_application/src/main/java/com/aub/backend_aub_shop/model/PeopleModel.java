@@ -5,11 +5,8 @@ import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.aub.backend_aub_shop.util.UUIDConverter;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,7 +23,6 @@ public class PeopleModel {
     @GeneratedValue(strategy = GenerationType.UUID) // Use UUID strategy for ID generation
 
     @Column(name = "_people_id", updatable = false, nullable = false, columnDefinition = "BINARY(16)")
-    @Convert(converter = UUIDConverter.class) // Use custom converter
     private UUID id = UUID.randomUUID();
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
