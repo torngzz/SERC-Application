@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,18 +19,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.aub.backend_aub_shop.dto.UserDTO;
 import com.aub.backend_aub_shop.model.UserModel;
+import com.aub.backend_aub_shop.service.TransactionService;
 import com.aub.backend_aub_shop.service.UserService;
+import com.aub.backend_aub_shop.util.LogAction;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping(value = {"", "/users"})
 //set tr role Admin
-@PreAuthorize("hasRole('Admin')")
+// @PreAuthorize("hasRole('Admin')")
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TransactionService transactionService;
 
     @GetMapping(value = {"/userList"})
     public String getAllUser(
@@ -71,10 +75,12 @@ public class UserController {
     {
         try{
             userService.create(httpRequest, userModel);
+            transactionService.logTransaction(userModel, LogAction.CREATE, "Success");
             return "redirect:/users/userList";
         }
         catch (IllegalArgumentException e) {
             m.addAttribute("usernameError", e.getMessage());
+            transactionService.logTransaction(userModel, LogAction.CREATE, "Failed");
             return "UserManagement/add-user";  // Name of your Thymeleaf template file without the ".html" extension
         }
     }
@@ -135,15 +141,19 @@ public class UserController {
     public String updateUser(@PathVariable("id") UUID id, @ModelAttribute("user") UserModel users, Model m, HttpServletRequest httpRequest) {
         try {
             UserModel updateUser = userService.update(users, id, httpRequest);
+            transactionService.logTransaction(users, LogAction.UPDATE, "Success");
+
             m.addAttribute("user", updateUser);
             return "redirect:/users/userList";
         } catch (IllegalArgumentException e) {
             // Handle specific exceptions like IllegalArgumentException
             m.addAttribute("error", e.getMessage());
+            transactionService.logTransaction(users, LogAction.UPDATE, "Failed");
             return "redirect:/users/error";
         } catch (Exception e) {
             // Handle any other unexpected exceptions
             m.addAttribute("error", "An unexpected error occurred.");
+            transactionService.logTransaction(users, LogAction.UPDATE, "Failed");
             return "redirect:/users/error";
         }
     }

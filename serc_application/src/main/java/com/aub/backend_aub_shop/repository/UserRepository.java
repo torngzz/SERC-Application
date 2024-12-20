@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.aub.backend_aub_shop.model.UserModel;
 
+
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, UUID> {
 
@@ -43,6 +44,4 @@ public interface UserRepository extends JpaRepository<UserModel, UUID> {
     // UserModel findByIdWithUuidToBin(@Param("id") UUID id);
     @Query(value = "SELECT * FROM tbl_user WHERE id = :id", nativeQuery = true)
     UserModel findByIdWithBinaryUuid(@Param("id") byte[] id);
-
-
 }

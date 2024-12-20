@@ -1,9 +1,9 @@
 package com.aub.backend_aub_shop.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.aub.backend_aub_shop.model.TransactionModel;
 import com.aub.backend_aub_shop.model.UserModel;
+import com.aub.backend_aub_shop.repository.UserRepository;
 import com.aub.backend_aub_shop.service.LoginService;
 import com.aub.backend_aub_shop.service.TransactionService;
 import com.aub.backend_aub_shop.service.UserService;
 import com.aub.backend_aub_shop.util.LogAction;
+import com.aub.backend_aub_shop.util.UserSessionUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,62 +36,67 @@ public class LoginController {
     @Autowired private LoginService loginService;
     @Autowired private UserService userService;
     @Autowired private TransactionService transactionService;
+    @Autowired private UserRepository userRepository;
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
     
-    @GetMapping("/login")
+    @GetMapping("/loginProcess")
     public String showLoginPage() {
         return "Login/login";
     }
 
     // @PostMapping("/loginProcess")
-    // public String login(@RequestParam String username, @RequestParam String password, HttpServletRequest request) {
-    //     // Add your custom login logic here (e.g., authenticate the user)
-    //     return "redirect:/home";
+    // public String loginProcess(HttpServletRequest request, Model m) {
+    //     int status = 0;
+    //     try {
+    //         HttpSession session = request.getSession();
+    //         String username = (String) session.getAttribute("username");
+
+    //         // Retrieve UserModel using the username
+    //         UserModel userModel = userService.findUserByUsername(username); // Adjust according to your service/repository
+
+    //         if (userModel == null) {
+    //             // Handle case where user is not found
+    //             return "redirect:/users/error";
+    //         }
+
+    //         status = loginService.checkStatus(username);
+    //         if (status == 0) {
+    //             return "redirect:/users/error";
+    //         } else {
+    //             m.addAttribute("username", username);
+    //             log.info("The username that logged into the system is : " + username);
+
+    //             LogAction logAction = LogAction.LOGIN;
+    //             TransactionModel tran = new TransactionModel();
+    //             tran.setUser(userModel); // Set the UserModel here
+    //             tran.setAction(logAction);
+    //             tran.setStatus("");
+    //             tran.setTransanctionDate(new Date());
+
+    //             return "redirect:users";
+    //         }
+    //     } catch (IllegalArgumentException e) {
+    //         return "redirect:/users/error";   
+    //     }
     // }
-
-    @PostMapping("/login")
-    public String loginProcess(HttpServletRequest request, Model m) {
-        int status = 0;
-        try {
-            HttpSession session = request.getSession();
-            String username = (String) session.getAttribute("username");
-
-            // Retrieve UserModel using the username
-            UserModel userModel = userService.findUserByUsername(username); // Adjust according to your service/repository
-
-            if (userModel == null) {
-                // Handle case where user is not found
-                return "redirect:/users/error";
-            }
-
-            status = loginService.checkStatus(username);
-            if (status == 0) {
-                return "redirect:/users/error";
-            } else {
-                m.addAttribute("username", username);
-                log.info("The username that logged into the system is : " + username);
-
-                LogAction logAction = LogAction.LOGIN;
-                TransactionModel tran = new TransactionModel();
-                tran.setUsername(userModel); // Set the UserModel here
-                tran.setAction(logAction);
-                tran.setStatus("");
-                tran.setTransanctionDate(new Date());
-
-                return "redirect:users";
-            }
-        } catch (IllegalArgumentException e) {
-            return "redirect:/users/error";   
-        }
-    }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         if (session != null) {
-            UserModel userModel = (UserModel) session.getAttribute("user"); // Fetch UserModel from session
-            if (userModel != null) {
-                transactionService.logTransaction(userModel, LogAction.LOGOUT);
+            // Use UserSessionUtils to fetch the user ID from the session
+            UUID userId = UserSessionUtils.getUserId(session); // This method should return the user's ID
+            if (userId != null) {
+                // Fetch the user using the userId
+                UserModel userModel = userRepository.findById(userId)
+                                                    .orElse(null); // Fetch user by ID
+                if (userModel != null) {
+                    // Log the logout transaction
+                    transactionService.logTransaction(userModel, LogAction.LOGOUT, "Success");
+                }
+                else{
+                    transactionService.logTransaction(userModel, LogAction.LOGOUT, "Failed");
+                }
             }
 
             // Clear session and perform logout

@@ -5,43 +5,23 @@ import java.util.Date;
 import com.aub.backend_aub_shop.util.LogAction;
 
 public class TransactionDTO {
-    private Long id;
+    private Long no;
     private String username;
-    private String role;
-    private Date loginDate;
     private LogAction action;
     private String status;
-    private Date logoutDate;
+    private Date transactionDate;
 
-    public Date getLogoutDate() {
-        return logoutDate;
+    public Long getNo() {
+        return no;
     }
-    public void setLogoutDate(Date logouDate) {
-        this.logoutDate = logouDate;
-    }
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
+    public void setNo(Long no) {
+        this.no = no;
     }
     public String getUsername() {
         return username;
     }
     public void setUsername(String username) {
         this.username = username;
-    }
-    public String getRole() {
-        return role;
-    }
-    public void setRole(String role) {
-        this.role = role;
-    }
-    public Date getLoginDate() {
-        return loginDate;
-    }
-    public void setLoginDate(Date loginDate) {
-        this.loginDate = loginDate;
     }
     public LogAction getAction() {
         return action;
@@ -55,5 +35,10 @@ public class TransactionDTO {
     public void setStatus(String status) {
         this.status = status;
     }
-
+    public Date getTransactionDate() {
+        return transactionDate;
+    }
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
+    }
 }

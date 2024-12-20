@@ -1,7 +1,6 @@
 package com.aub.backend_aub_shop.service;
 
 import java.util.Date;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,39 +25,37 @@ public class TransactionService {
     private TransactionRepository transactionRepository;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private TransactionService transactionService;
 
     public Page<TransactionDTO> findAll(String username, int pageNumber, int pageSize){
-        Page<TransactionModel> transaction = transactionRepository.findByUsername_UsernameContaining(username, PageRequest.of(pageNumber, pageSize));
+        Page<TransactionModel> transaction = transactionRepository.findByUser_UsernameContaining(username, PageRequest.of(pageNumber, pageSize));
 
         return transaction.map(tran -> {
-
             TransactionDTO dto = new TransactionDTO();
-            dto.setId(tran.getNo());
-            // dto.setUsername(transactionService.getUsernameById());
-            // dto.setRole(tran.getRole());
-            dto.setAction(tran.getAction());
+            dto.setNo(tran.getNo());
+            dto.setUsername(getUsernameById(tran.getUser()));
+            if(tran.getAction() == LogAction.CREATE){
+                dto.setAction(LogAction.CREATE);
+            } else {
+                dto.setAction(tran.getAction());
+            }
             dto.setStatus(tran.getStatus());
-            // dto.setLoginDate(tran.getLoginDate());
-            // dto.setLogoutDate(tran.getLogoutDate());
-
+            dto.setTransactionDate(tran.getTransanctionDate());
             return dto;
         });
     }
 
-    public String getUsernameById(UUID userId) {
-        LOGGER.info("User ID is : "  + userId);
-        UserModel user = userRepository.findById(userId)
+    public String getUsernameById(UserModel userModel) {
+        LOGGER.info("getUsernameById function : User ID is : "  + userModel);
+        UserModel user = userRepository.findById(userModel.getId())
             .orElseThrow(() -> new RuntimeException("User not found"));
         return user.getUsername();
     }
 
-    public void logTransaction(UserModel user, LogAction action) {
+    public void logTransaction(UserModel user, LogAction action, String status) {
         TransactionModel transaction = new TransactionModel();
-        transaction.setUsername(user);
+        transaction.setUser(user);
         transaction.setAction(action);
-        transaction.setStatus("SUCCESS");
+        transaction.setStatus(status);
         transaction.setTransanctionDate(new Date());
 
         // Save transaction here (use repository directly)

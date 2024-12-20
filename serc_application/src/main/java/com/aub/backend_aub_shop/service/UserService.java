@@ -36,7 +36,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepo;
     private final TransactionRepository tranRepo;
     private final PasswordEncoder passwordEncoder;
-
+    
     @Autowired
     private UserRepository userRepository;
 

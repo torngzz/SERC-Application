@@ -1,6 +1,7 @@
 package com.aub.backend_aub_shop.repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,12 +13,12 @@ import com.aub.backend_aub_shop.model.TransactionModel;
 @Repository
 public interface TransactionRepository extends JpaRepository<TransactionModel, Long> {
 
-    // Correcting the method to access UserModel's 'username' field via a join
-    Optional<TransactionModel> findByUsername_Username(String username);
+    // Find a transaction by the user's ID (from UserModel)
+    Optional<TransactionModel> findByUser_Id(UUID userId);
 
-    // Find transactions where the username's username contains a specific string
-    Page<TransactionModel> findByUsername_UsernameContaining(String username, Pageable pageable);
+    // Find transactions where the user's username contains a specific string
+    Page<TransactionModel> findByUser_UsernameContaining(String username, Pageable pageable);
 
-    // Find the latest login transaction where logoutDate is null (uncomment if needed)
-    // TransactionModel findTopByUsernameAndActionAndLogoutDateIsNullOrderByLoginDateDesc(String username, String action);
+    // Uncomment if you need this
+    // TransactionModel findTopByUser_Id_UsernameAndActionAndLogoutDateIsNullOrderByLoginDateDesc(String username, LogAction action);
 }

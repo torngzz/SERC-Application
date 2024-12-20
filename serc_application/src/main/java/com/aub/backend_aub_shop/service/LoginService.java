@@ -73,7 +73,7 @@ public class LoginService {
         HttpSession session = request.getSession();
         UserModel userId = (UserModel) session.getAttribute("User ID:");
         LogAction logAction = LogAction.LOGOUT;
-        tran.setUsername(userId); // Set the UserModel here
+        tran.setUser(userId); // Set the UserModel here
         tran.setAction(logAction);
         tran.setStatus("");
         tran.setTransanctionDate(new Date());

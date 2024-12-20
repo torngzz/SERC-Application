@@ -17,15 +17,15 @@ import jakarta.persistence.Table;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "transaction")
+@Table(name = "transaction_log")
 public class TransactionModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long no;
 
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id") // 'id' is the primary key of UserModel
-    private UserModel username; // Change this from String to UserModel
+    @JoinColumn(name = "user_id", referencedColumnName = "id") // Ensure 'id' matches UserModel's primary key
+    private UserModel user; // Rename this from `user_id` to `user`
 
     private LogAction action;
     private String status;
@@ -37,13 +37,6 @@ public class TransactionModel {
     }
     public void setNo(Long no) {
         this.no = no;
-    }
-
-    public UserModel getUsername() { // Update getter
-        return username;
-    }
-    public void setUsername(UserModel username) { // Update setter
-        this.username = username;
     }
 
     public LogAction getAction() {
@@ -65,5 +58,12 @@ public class TransactionModel {
     }
     public void setTransanctionDate(Date transanctionDate) {
         this.transanctionDate = transanctionDate;
+    }
+
+    public UserModel getUser() {
+        return user;
+    }
+    public void setUser(UserModel user) {
+        this.user = user;
     }
 }

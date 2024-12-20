@@ -85,22 +85,17 @@
                 <tr>
                   <th>No</th>
                   <th>Username</th>
-                  <th>Role</th>
                   <th>Action</th>
-                  <th>Login Date</th>
-                  <th>Logout Date</th>
-                  <th>Status</th>
+                  <th>Date</th>
                 </tr>
               </thead>
               <tbody style="text-align: center">
                 <tr th:each="transaction, stat : ${transactionlist}">
                   <!-- <td th:text="${stat.index + 1}"></td> -->
+                  <td th:text="${transaction.no}">No</td>
                   <td th:text="${transaction.username}">Username</td>
-                  <td th:text="${transaction.role}">Role</td>
                   <td th:text="${transaction.action}">Action</td>
-                  <td th:text="${#dates.format(transaction.loginDate, 'dd-MMM-yyyy HH:mm:ss')}"></td>
-                  <td th:text="${#dates.format(transaction.logoutDate, 'dd-MMM-yyyy HH:mm:ss')}"></td>
-                  <td th:text="${transaction.status}">Status</td>
+                  <td th:text="${#dates.format(transaction.transactionDate, 'dd-MMM-yyyy HH:mm:ss')}">Transaction Date</td>
                 </tr>
               </tbody>
             </table>

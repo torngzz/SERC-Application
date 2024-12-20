@@ -3,6 +3,7 @@ package com.aub.backend_aub_shop.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class SessionService {
 
     @Autowired
+    @Qualifier("customUserDetailsService")
     private UserDetailsService userDetailsService;
 
     @Autowired

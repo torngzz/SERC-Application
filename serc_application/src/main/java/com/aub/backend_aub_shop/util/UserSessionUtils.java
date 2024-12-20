@@ -21,16 +21,31 @@ public class UserSessionUtils {
     }
 
     public static UserSessionManager getUserSessionManager(HttpSession session) {
-        // HttpServletRequest req = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        if (session == null) {
+            return null; // Return null if the session is null
+        }
         return (UserSessionManager) session.getAttribute("UserSessionManager");
     }
 
     public static UUID getUserId(HttpSession session) {
-        return getUserSessionManager(session).getUserId();
+        UserSessionManager userSessionManager = getUserSessionManager(session);
+        if (userSessionManager == null) {
+            return null; // Return null if UserSessionManager is not in the session
+        }
+        return userSessionManager.getUserId();
     }
 
+
+    // public static UserModel getUserIdBy(HttpSession session) {
+    //     return getUserSessionManager(session).getUserId();
+    // }
     public static String getUsername(HttpSession session) {
-        return getUserSessionManager(session).getUsername();
+        UserSessionManager userSessionManager = getUserSessionManager(session);
+        if (userSessionManager == null) {
+            return null; // Return null if UserSessionManager is not in the session
+        }
+        return userSessionManager.getUsername();
     }
+
 }
 
