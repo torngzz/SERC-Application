@@ -9,10 +9,10 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,10 +20,17 @@ import jakarta.persistence.Table;
 public class PeopleModel {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID) // Use UUID strategy for ID generation
+    @GeneratedValue
+    @Column(name = "_people_id", columnDefinition = "BINARY(16)")
+    private UUID id;
 
-    @Column(name = "_people_id", updatable = false, nullable = false, columnDefinition = "BINARY(16)")
-    private UUID id = UUID.randomUUID();
+    @PrePersist
+    public void generateId() {
+        if (id == null) {
+            id = UUID.randomUUID();
+            System.out.println("Generated ID: " + id);
+        }
+    }
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
@@ -39,12 +46,14 @@ public class PeopleModel {
     private String role;
     private int status;
     private String title;
+    @Column(name = "created_by", columnDefinition = "BINARY(16)")
     private UUID created_by;
     private Date created_date;
-    private UUID updated_by;
+    @Column(name = "updated_by", columnDefinition = "BINARY(16)")
+    private UUID updated_by; 
     private Date updated_date; 
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JoinColumn(name = "contact_id", referencedColumnName = "_contact_id")
     private ContactModel contact;
         
@@ -53,6 +62,9 @@ public class PeopleModel {
     }
     public void setContact(ContactModel contact) {
         this.contact = contact;
+        if (contact != null && contact.getPeople() != this) {
+            contact.setPeople(this);
+        }
     }
     public UUID getCreated_by() {
         return created_by;
@@ -109,15 +121,13 @@ public class PeopleModel {
     }
     public void setGender(String gender) {
         this.gender = gender;
-    }
-    
+    }    
     public String getImage() {
         return image;
     }
     public void setImage(String image) {
         this.image = image;
-    }
-    
+    }    
     public String getIndividual_type() {
         return individual_type;
     }

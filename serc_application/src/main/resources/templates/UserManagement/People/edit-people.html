@@ -1,36 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
-  <head>
-    <title>User Form</title>
-  </head>
-  <style>
-    select option:first-child {
-      display: none !important;
-    }
-  </style>
-  <body class="">
+<head>
+    <title>Edit People</title>
+    <link rel="stylesheet" th:href="@{/style/css/styles.css}" />
+</head>
+<body>
     <div th:fragment="content" class="mt-5">
-        <div class="card shadow mb-4 mt-3">
-            <form id="peopleForm" th:action="@{/people/savePeople}" th:object="${people}" method="post" enctype="multipart/form-data">
+        <div class="card shadow mb-4 mt-5">
+            <form th:action="@{/people/editPeople/{id}(id = ${people.id})}" th:object="${people}">
                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                    <h3>Add New People</h3>
+                    <h3>Update People Information</h3>
                     <!-- Buttons -->
                     <div>
                         <button type="submit" class="btn btn-success btn-save">Save</button>
                         <a th:href="@{/people/getPeople}" class="btn btn-secondary">Cancel</a>
                     </div>
                 </div>
-                    
-                <!-- <h2 th:text="${user.id} == null ? 'Add New User' : 'Edit User'"></h2> -->
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <!-- First Col -->
                         <div class="col-md-4">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="latinName">Latin Name</label>
-                                        <input type="text" class="form-control" id="name_en" th:field="*{nameEn}" required/>
+                                        <input type="text" class="form-control" id="nameEn" th:field="*{nameEn}"/>
                                     </div>
                                 </div>                                
                             </div>
@@ -38,7 +32,7 @@
                                 <div class="col-md-12">                                                     
                                     <div class="form-group">
                                         <label for="dob">Date of Birth</label>
-                                        <input type="date" class="form-control" id="dob" th:field="*{dob}" required/>
+                                        <input type="date" class="form-control" id="dob" th:field="*{dob}"/>
                                     </div>
                                 </div>                               
                             </div>
@@ -46,6 +40,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="title">Title</label>
+                                        <!-- <input type="text" class="form-control" id="dob" th:field="*{title}"/> -->
                                         <select class="form-control" id="title" th:field="*{title}" required>
                                             <option value="" selected> Select Title</option>
                                             <option value="លោក">លោក</option>
@@ -64,16 +59,16 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="passport">Passport</label>
-                                        <input type="text" class="form-control" id="passport" th:field="*{passport}" required/>
+                                        <input type="text" class="form-control" id="dob" th:field="*{passport}"/>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group" id="phones">
-                                        <label for="phone">Phone</label>
-                                        <div class="input-group">
-                                            <input type="text"​ name="phones" class="form-control" id="phone" required/>
+                                        <label for="phone">Phone</label>                          
+                                        <div th:each="phone : ${phones}" class="input-group mb-2">
+                                            <input type="text" class="form-control" th:value="${phone}"/>
                                             <div class="input-group-append">
                                                 <button type="button" class="btn btn-sm btn-primary" id="addPhoneButton">+</button>
                                             </div>
@@ -81,7 +76,7 @@
                                     </div>                  
                                 </div> 
                             </div>   
-                              
+                                
                         </div>
                         
                         <!-- Second Col -->
@@ -90,7 +85,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="khmerName">Khmer Name</label>
-                                        <input type="text" class="form-control" id="name_kh" th:field="*{nameKh}" />
+                                        <input type="text" class="form-control" id="dob" th:field="*{nameKh}"/>
                                     </div>                                    
                                 </div>                                
                             </div>                     
@@ -98,7 +93,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="phone">Nationality</label>
-                                        <input type="text" class="form-control" id="nationality" th:field="*{nationality}" required/>
+                                        <input type="text" class="form-control" id="dob" th:field="*{nationality}"/>
                                     </div>                              
                                 </div>
                                 
@@ -107,7 +102,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="division">Division</label>
-                                        <input type="text" class="form-control" id="division" th:field="*{division}" />
+                                        <input type="text" class="form-control" id="dob" th:field="*{division}"/>
                                     </div>
                                 </div>                                
                             </div>
@@ -115,7 +110,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="status">ID Card</label>
-                                        <input type="number" class="form-control" id="status" th:field="*{idCard}" required/>
+                                        <input type="text" class="form-control" id="dob" th:field="*{idCard}"/>
                                     </div>
                                 </div>
                             </div>  
@@ -123,8 +118,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group" id="emails">
                                         <label for="email">Email</label>
-                                        <div class="input-group">
-                                            <input type="email" name="emails" class="form-control" id="email" required/>
+                                        <div th:each="email : ${emails}" class="input-group mb-2">
+                                            <input type="email" class="form-control" th:value="${email}"/>
                                             <div class="input-group-append">
                                                 <button type="button" class="btn btn-sm btn-primary" id="addEmailButton">+</button>
                                             </div>
@@ -138,7 +133,7 @@
                         <div class="col-md-4">
                             <div class="row">
                                 <div class="col-md-12">
-                                   <div class="form-group">
+                                    <div class="form-group">
                                         <label for="gender">Gender</label>
                                         <select class="form-control" id="gender" th:field="*{gender}" required>
                                             <option value="" selected>Select gender</option>
@@ -160,39 +155,57 @@
                                     </div>
                                 </div>                                
                             </div>
+                            <!-- <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="image">Image</label>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="image-upload-container">
+                                                    <img th:src="@{'/uploads/' + ${people.image}}" alt="People Image" style="max-width: 150px; max-height: 125px;">                             
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8 mb-0">
+                                                <input type="file" id="image" name="image" class="form-control-file">
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>                             
+                            </div>  -->
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="image">Image</label>
-                                        <!-- Default image preview, clickable -->
-                                        <div class="image-upload-container">
-                                            <img id="imagePreview"
-                                                th:src="${people.image != null} ? @{/uploads/} + ${people.image} : @{/image/noimage.jpg}"
-                                                src="/serc-application/image/noimage.jpg" 
-                                                alt="Default Image"                                                
-                                                onclick="document.getElementById('image').click();">
-                                                
-                                                <!-- <p id="fileName" style="margin-top: 10px; font-style: italic; color: #555;"></p> -->
-                                                <!-- Hidden file input -->
-                                                <input type="file" name="file" class="hidden-file-input" id="image" accept="image/*" >
-                                                
-                                                <!-- Hidden input to store the current image preview path -->
-                                                <input type="hidden" name="currentImage" th:value="${people.image}">
+                                        <div class="row align-items-center">
+                                            <!-- Clickable Old Image Preview -->
+                                            <div class="col-md-4">
+                                                <div class="image-upload-container" style="position: relative; cursor: pointer;">
+                                                    <img id="imagePreview" 
+                                                            th:src="@{'/uploads/' + ${people.image}}" 
+                                                            alt="People Image" 
+                                                            style="max-width: 150px; max-height: 125px;"
+                                                            onclick="document.getElementById('image').click();"
+                                                            name="image">
+                                                    <input type="file" id="image" name="image" class="form-control-file" style="display: none;" onchange="previewImage(this)">
+                                                </div>
+                                            </div>
+                                            <!-- Label for Upload New Photo -->
+                                            <div class="col-md-8">
+                                                <label for="image" style="cursor: pointer;" onclick="document.getElementById('image').click();">
+                                                    Click to upload new image
+                                                </label>
+                                            </div>
                                         </div>
-                                        
-                                        <!-- <div class="form-group">
-                                            <label for="image_url">Image</label>
-                                            <input type="file" name="image" class="form-control-file" id="image" required>
-                                        </div> -->
                                     </div>
-                                </div>                             
-                            </div> 
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group" id="medias">
                                         <label for="status">Media</label>
-                                        <div class="input-group">
-                                            <input type="text" name="medias" class="form-control" id="media" required/>
+                                        <div th:each="media : ${medias}" class="input-group mb-2">
+                                            <input type="text" name="medias" class="form-control" id="media" th:value="${media}"/>
                                             <div class="input-group-append">
                                                 <button type="button" class="btn btn-sm btn-primary" id="addMediaButton">+</button>
                                             </div>
@@ -202,123 +215,27 @@
                             </div>                               
                         </div>
                     </div>               
-                </div>                    
-            </form>
-        </div>  
+                </div>
+            </form>          
+        </div>
     </div>
-
     <div th:fragment="customScripts">
         <script>
-            $(document).ready(function () {
-                // Initialize counters
-                let emailCount = 1;
-                let phoneCount = 1;
-                let mediaCount = 1;
-        
-                // Add new email input field
-                $("#addEmailButton").click(function () {
-                    const emailField = `
-                        <div class="input-group mt-2 email-group">
-                            <input type="email" name="emails" class="form-control" name="contact.emails[${emailCount}].email" required>
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-sm btn-danger remove-email-button">-</button>
-                            </div>
-                        </div>`;
-                    $("#emails").append(emailField);
-                    emailCount++;
-                });
-        
-                // Add new phone input field
-                $("#addPhoneButton").click(function () {
-                    const phoneField = `
-                        <div class="input-group mt-2 phone-group">
-                            <input type="text" name="phones" class="form-control" name="contact.phones[${phoneCount}].phone" required>
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-sm btn-danger remove-phone-button">-</button>
-                            </div>
-                        </div>`;
-                    $("#phones").append(phoneField);
-                    phoneCount++;
-                });
-        
-                // Add new media input field
-                $("#addMediaButton").click(function () {
-                    const mediaField = `
-                        <div class="input-group mt-2 media-group">
-                            <input type="text" name="medias" class="form-control" name="contact.medias[${mediaCount}].media" required>
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-sm btn-danger remove-media-button">-</button>
-                            </div>
-                        </div>`;
-                    $("#medias").append(mediaField);
-                    mediaCount++;
-                });
-        
-                // Remove email input field
-                $("#emails").on("click", ".remove-email-button", function () {
-                    $(this).closest(".email-group").remove();
-                });
-        
-                // Remove phone input field
-                $("#phones").on("click", ".remove-phone-button", function () {
-                    $(this).closest(".phone-group").remove();
-                });
-        
-                // Remove media input field
-                $("#medias").on("click", ".remove-media-button", function () {
-                    $(this).closest(".media-group").remove();
-                });
-
-                //upload image
-                document.getElementById('image').addEventListener('change', function(event) {
-                    const fileInput = event.target;
-                    const preview = document.getElementById('imagePreview');
-                    // const fileName = fileInput.files[0] ? fileInput.files[0].name : '';
-                    const fileNameDisplay = document.getElementById('fileName');
-
-                    // Display the file name
-                    //  .textContent = fileName;
-
-                    // Update the image preview
-                   
-                    if (fileInput.files && fileInput.files[0]) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            preview.src = e.target.result;
-                        };
-                        reader.readAsDataURL(fileInput.files[0]);
-                        // fileNameDisplay.textContent = `Selected file: ${fileInput.files[0].name}`; // Update file name display
-                    }else {
-                        // Reset to the default preview and message if no file is selected
-                        preview.src = preview.getAttribute('src');
-                        fileNameDisplay.textContent = 'Click the image to upload';
-                    }
-                });
-
-                // // Select the elements
-                // const imagePreview = document.getElementById('imagePreview');
-                // const fileInput = document.getElementById('image');
-
-                // // When the image is clicked, trigger the file input
-                // imagePreview.addEventListener('click', function() {
-                //     fileInput.click(); // Simulate a click on the hidden file input
-                // });
-
-                // // When a file is selected, update the preview image
-                // fileInput.addEventListener('change', function(event) {
-                //     const file = event.target.files[0];
-                //     if (file) {
-                //         const reader = new FileReader();
-                //         reader.onload = function(e) {
-                //             // Update the image preview
-                //             imagePreview.src = e.target.result;
-                //         };
-                //         reader.readAsDataURL(file);
-                //     }
-                // });                
-
-            });
-        </script>        
+            /**
+             * Preview the uploaded image
+             * @param {HTMLInputElement} input - The file input element
+             */
+            function previewImage(input) {
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        // Update the image preview
+                        document.getElementById('imagePreview').src = e.target.result;
+                    };
+                    reader.readAsDataURL(input.files[0]); // Read the file as a data URL
+                }
+            }
+        </script>
     </div>
 </body>
 </html>

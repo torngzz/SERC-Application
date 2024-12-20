@@ -92,3 +92,60 @@ ul {
 a:hover{
     text-decoration: none;
 }
+/* .image-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin: 20px 0;
+} */
+
+.image-upload-container img {
+    width: 100%;
+    max-width: 150px;
+    height: 125px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    object-fit: cover;
+    cursor: pointer;
+    /* margin-bottom: 10px; */
+}
+
+.image-upload-container p {
+    margin-top: 10px;
+    font-style: italic;
+    color: #555;
+}
+
+.hidden-file-input {
+    display: none;
+}
+
+/**************people-list***************/
+table.table td,
+table.table th {
+white-space: nowrap; /* Prevent line breaks */
+}
+.table-container {
+    overflow-x: auto; /* Ensure the table is scrollable */
+    -webkit-overflow-scrolling: touch; /* For smooth scrolling on mobile */
+}
+
+/**************people-detail***************/
+.btnBack{
+    font-size: 16px;
+    float: right;
+}
+
+
+@media (max-width: 768px) {
+    /* For small screens */
+    .col-md-2 {
+        flex: 0 0 100%; /* Make sidebar take full width on small screens */
+    }
+}
+@media (min-width: 769px) and (max-width: 1400px) {
+    /* For medium screens */
+    .col-md-2 {
+        flex: 0 0 100%; /* Make sidebar take full width on small screens */
+    }
+}

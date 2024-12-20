@@ -1,5 +1,6 @@
 package com.aub.backend_aub_shop.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,10 +19,10 @@ public class PhoneModel {
     @Column(name = "_phone_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name = "contact_id", referencedColumnName="_contact_id", nullable=false)
     private ContactModel contact;
-
+    
     private String phone;
     private boolean status;
 
@@ -50,7 +51,5 @@ public class PhoneModel {
     public void setContact(ContactModel contact) {
         this.contact = contact;
     }
-   
     
-
 }

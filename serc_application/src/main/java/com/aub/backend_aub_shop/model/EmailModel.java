@@ -1,5 +1,6 @@
 package com.aub.backend_aub_shop.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,34 +21,35 @@ public class EmailModel {
     @Column(name = "email")
     private String email;
     
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name = "contact_id", referencedColumnName = "_contact_id", nullable = false)
     private ContactModel contact;
+
+    @Column(name="status")
+    private Boolean status;
     
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
     public ContactModel getContact() {
         return contact;
     }
-
     public void setContact(ContactModel contact) {
         this.contact = contact;
     }
-
-
-
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
-    
+    public Boolean getStatus() {
+        return status;
+    }
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
 }

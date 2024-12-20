@@ -36,6 +36,21 @@ public class ContactModel {
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL)
     private List<PhoneModel> phones = new ArrayList<>();
 
+    public void addPhone(PhoneModel phone) {
+        phones.add(phone);
+        phone.setContact(this);
+    }
+
+    public void addEmail(EmailModel email) {
+        emails.add(email);
+        email.setContact(this);
+    }
+
+    public void addMedia(MediaModel media) {
+        medias.add(media);
+        media.setContact(this);
+    }
+    
     public List<EmailModel> getEmails() {
         return emails;
     }
@@ -66,6 +81,9 @@ public class ContactModel {
     }
     public void setPeople(PeopleModel people) {
         this.people = people;
+        // if (people != null && people.getContact() != this) {
+        //     people.setContact(this);
+        // }
     }
     
  

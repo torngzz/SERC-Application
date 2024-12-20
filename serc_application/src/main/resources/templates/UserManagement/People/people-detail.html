@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <title>People Details</title>
+    <link rel="stylesheet" th:href="@{/style/css/styles.css}" />
+</head>
+<body>
+    <div th:fragment="content" class="mt-5">
+        <div class="card shadow mb-4 mt-5">
+            <h3 class="card-header text-white bg-primary">View People Details Information</h3>
+            <div>
+                <!-- <form th:action="@{/people/viewPeople/{id}(id = ${people.id})}" th:object="${people}" method="get"> -->
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                        <!-- First Col -->
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="latinName">Latin Name</label>
+                                        <p class="form-control"><strong></strong><span th:text="${people.nameEn}">N/A</span></p>
+                                        <!-- <input type="text" class="form-control" id="name_en" th:text="*{people.nameEn}" disabled/> -->
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">                                                     
+                                    <div class="form-group">
+                                        <label for="dob">Date of Birth</label>
+                                        <!-- <input type="text" class="form-control" id="dob" th:text="*{people.dob}" disabled/> -->
+                                        <p class="form-control" id="dob" disabled><strong></strong><span th:text="${people.dob}">N/A</span></p>
+                                    </div>
+                                </div>                               
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="title">Title</label>
+                                        <p class="form-control"><strong></strong><span th:text="${people.title}">N/A</span></p>
+                                    </div>  
+                                </div>                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="passport">Passport</label>
+                                        <p class="form-control"><strong></strong><span th:text="${people.passport}">N/A</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group" id="phones">
+                                        <label for="phone">Phone</label>
+                                        <div th:each="phone : ${phones}" class="input-group mb-2">
+                                            <!-- <input type="text" class="form-control" th:value="${phone}" disabled/> -->
+                                            <p class="form-control"><strong></strong><span th:text="${phone}"></span></p>
+                                        </div>
+                                    </div>                  
+                                </div> 
+                            </div>   
+                                
+                        </div>
+                        
+                        <!-- Second Col -->
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="khmerName">Khmer Name</label>
+                                        <p class="form-control"><strong></strong><span th:text="${people.nameKh}">N/A</span></p>
+                                    </div>                                    
+                                </div>                                
+                            </div>                     
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="phone">Nationality</label>
+                                        <p class="form-control"><strong></strong><span th:text="${people.nationality}">N/A</span></p>
+                                    </div>                              
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="division">Division</label>
+                                        <p class="form-control"><strong></strong><span th:text="${people.division}">N/A</span></p>
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="status">ID Card</label>
+                                        <p class="form-control"><strong></strong><span th:text="${people.idCard}">N/A</span></p>
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group" id="emails">
+                                        <label for="email">Email</label>
+                                        <div th:each="email : ${emails}" class="input-group mb-2">
+                                            <!-- <input type="email" class="form-control" th:value="${email}" disabled/> -->
+                                            <p class="form-control"><strong></strong><span th:text="${email}"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                                          
+                        </div>
+
+                        <!-- Third Col -->
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="gender">Gender</label>
+                                        <p class="form-control"><strong></strong><span th:text="${people.gender}">N/A</span></p>
+                                    </div>   
+                                </div>                                                         
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="individual_type">Individual Type</label>
+                                        <p class="form-control"><strong></strong><span th:text="${people.individual_type}">N/A</span></p>
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="image">Image</label>
+                                        <!-- Default image preview, clickable -->
+                                        <div class="image-upload-container">
+                                            <img th:src="@{'/uploads/' + ${people.image}}" alt="People Image" style="max-width: 150px; max-height: 125px;">      
+                                        </div>
+                                        
+                                        <!-- <div class="form-group">
+                                            <label for="image_url">Image</label>
+                                            <input type="file" name="image" class="form-control-file" id="image" required>
+                                        </div> -->
+                                    </div>
+                                </div>                             
+                            </div> 
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group" id="medias">
+                                        <label for="status">Media</label>
+                                        <div th:each="media : ${medias}" class="input-group mb-2">
+                                            <p class="form-control" th:value="${media}"><strong></strong><span th:text="${media}"></span></p>
+                                        </div>
+                                    </div>                         
+                                </div>     
+                            </div>                               
+                        </div>
+                    </div>               
+                </div>
+            </div>            
+        </div>
+        <div class="w-100">
+            <a th:href="@{/people/getPeople}" class="btn btn-secondary btnBack">Back</a>
+        </div>
+    </div>
+</body>
+</html>

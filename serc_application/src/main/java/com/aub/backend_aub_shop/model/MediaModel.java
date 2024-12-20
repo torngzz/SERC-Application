@@ -1,5 +1,6 @@
 package com.aub.backend_aub_shop.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,12 +18,15 @@ public class MediaModel {
     @Column(name = "_media_id")
     private Long id;
 
-    @ManyToOne 
+    @ManyToOne(cascade=CascadeType.PERSIST) 
     @JoinColumn(name = "contact_id", referencedColumnName = "_contact_id", nullable = false)
     private ContactModel contact;
     
     @Column(name = "media")
     private String media;
+
+    @Column(name="status")
+    private Boolean status;
 
     public Long getId() {
         return id;
@@ -47,6 +51,12 @@ public class MediaModel {
     public void setMedia(String media) {
         this.media = media;
     }
-    
 
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
 }

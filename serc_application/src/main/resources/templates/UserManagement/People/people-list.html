@@ -3,33 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <title th:replace="layout :: title">User Management</title>
-    <link
+    <!-- <link
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
-    />
+    /> -->
     <link rel="stylesheet" th:href="@{/style/css/styles.css}" />
-    <style>
-      table.table td,
-      table.table th {
-        white-space: nowrap; /* Prevent line breaks */
-      }
-      .table-container {
-        overflow-x: auto; /* Ensure the table is scrollable */
-        -webkit-overflow-scrolling: touch; /* For smooth scrolling on mobile */
-      }
-      @media (max-width: 768px) {
-        /* For small screens */
-        .col-md-2 {
-          flex: 0 0 100%; /* Make sidebar take full width on small screens */
-        }
-      }
-      @media (min-width: 769px) and (max-width: 1400px) {
-        /* For medium screens */
-        .col-md-2 {
-          flex: 0 0 100%; /* Make sidebar take full width on small screens */
-        }
-      }
-    </style>
+   
   </head>
   <body class="bg-dark">
     <div th:fragment="content" class="mt-5">
@@ -37,7 +16,7 @@
       
       <div class="search-box m-2">
         <form th:action="@{/people}" method="get" class="mx-2">
-          <div class="row">
+          <div class="row">                                     
             <div class="col-5 m-0 p-0">
               <input
                 type="text"
@@ -116,8 +95,8 @@
                     <td th:text="${p.idCard}"></td>
                     <td th:text="${p.image}"></td> -->
                     <td class="text-nowrap">
-                      <a th:href="@{/people/detail/{id}(id=${p.id})}" class="btn btn-info" onclick="return confirm('Are you sure you want to disable this user?')">Detail</a>
-                      <a th:href="@{/people/edit/{id}(id=${p.id})}" class="btn btn-primary">Edit</a>
+                      <a th:href="@{/people/viewPeople/{id}(id=${p.id})}" class="btn btn-info">Detail</a>
+                      <a th:href="@{/people/editPeople/{id}(id=${p.id})}" class="btn btn-primary">Edit</a>
                       <a th:href="@{/people/delete/{id}(id=${p.id})}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
                     </td>
                   </tr>
