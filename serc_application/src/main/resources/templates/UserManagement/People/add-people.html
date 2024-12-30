@@ -161,7 +161,7 @@
                                 </div>                                
                             </div>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12">                   
                                     <div class="form-group">
                                         <label for="image">Image</label>
                                         <!-- Default image preview, clickable -->
@@ -169,7 +169,7 @@
                                             <img id="imagePreview"
                                                 th:src="${people.image != null} ? @{/uploads/} + ${people.image} : @{/image/noimage.jpg}"
                                                 src="/serc-application/image/noimage.jpg" 
-                                                alt="Default Image"                                                
+                                                alt="Default Image"                             
                                                 onclick="document.getElementById('image').click();">
                                                 
                                                 <!-- <p id="fileName" style="margin-top: 10px; font-style: italic; color: #555;"></p> -->

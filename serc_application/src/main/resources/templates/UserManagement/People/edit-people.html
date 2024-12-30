@@ -7,7 +7,7 @@
 <body>
     <div th:fragment="content" class="mt-5">
         <div class="card shadow mb-4 mt-5">
-            <form th:action="@{/people/editPeople/{id}(id = ${people.id})}" th:object="${people}">
+            <form id="peopleForm"th:action="@{/people/editPeople/{id}(id=${people.id})}" th:object="${people}" enctype="multipart/form-data" method="post">
                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                     <h3>Update People Information</h3>
                     <!-- Buttons -->
@@ -32,7 +32,7 @@
                                 <div class="col-md-12">                                                     
                                     <div class="form-group">
                                         <label for="dob">Date of Birth</label>
-                                        <input type="date" class="form-control" id="dob" th:field="*{dob}"/>
+                                        <input type="date" class="form-control" id="dob" th:field="*{dob}" />
                                     </div>
                                 </div>                               
                             </div>
@@ -75,8 +75,7 @@
                                         </div>
                                     </div>                  
                                 </div> 
-                            </div>   
-                                
+                            </div>                                 
                         </div>
                         
                         <!-- Second Col -->
@@ -187,7 +186,7 @@
                                                             style="max-width: 150px; max-height: 125px;"
                                                             onclick="document.getElementById('image').click();"
                                                             name="image">
-                                                    <input type="file" id="image" name="image" class="form-control-file" style="display: none;" onchange="previewImage(this)">
+                                                    <input type="file" id="image" name="image" class="form-control-file" style="display: none;" onchange="previewImage(this)" accept="image/*">
                                                 </div>
                                             </div>
                                             <!-- Label for Upload New Photo -->

@@ -19,7 +19,10 @@ import com.aub.backend_aub_shop.model.MediaModel;
 import com.aub.backend_aub_shop.model.PeopleModel;
 import com.aub.backend_aub_shop.model.PhoneModel;
 import com.aub.backend_aub_shop.repository.ContactRepository;
+import com.aub.backend_aub_shop.repository.EmailRepository;
+import com.aub.backend_aub_shop.repository.MediaRepository;
 import com.aub.backend_aub_shop.repository.PeopleRepository;
+import com.aub.backend_aub_shop.repository.PhoneRepository;
 import com.aub.backend_aub_shop.util.UserSessionUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,9 +34,9 @@ public class PeopleService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PeopleService.class);
     @Autowired private PeopleRepository peopleRepository;
     @Autowired ContactRepository contactRepository;
-    // @Autowired PhoneRepository phoneRepository;
-    // @Autowired EmailRepository emailRepository;
-    // @Autowired MediaRepository mediaRepository;
+    @Autowired PhoneRepository phoneRepository;
+    @Autowired EmailRepository emailRepository;
+    @Autowired MediaRepository mediaRepository;
     
     ContactModel contact = new ContactModel();
     PhoneModel phone = new PhoneModel();
@@ -119,17 +122,25 @@ public class PeopleService {
         return peopleRepository.findById(id);
     }
 
-
-    public PeopleModel editPeople(PeopleModel p, UUID id, HttpServletRequest request){
+    @Transactional
+    public PeopleModel editPeople(PeopleModel p,
+                                        UUID id,
+                                        String email,
+                                        String phone,
+                                        String media,
+                                        HttpServletRequest request) 
+    {
         Optional<PeopleModel> people = peopleRepository.findById(id);
         HttpSession session = request.getSession();
         UUID userId = UserSessionUtils.getUserId(session);
 
-        if(userId == null){
-            throw new IllegalStateException("User ID not found in session. Cannot create user.");
+        if (userId == null) {
+            throw new IllegalStateException("User ID not found in session. Cannot update.");
         }
-        if(people.isPresent()){
+        if (people.isPresent()) {
             PeopleModel existPeople = people.get();
+
+            // Update people fields
             existPeople.setNameEn(p.getNameEn());
             existPeople.setNameKh(p.getNameKh());
             existPeople.setDob(p.getDob());
@@ -144,13 +155,28 @@ public class PeopleService {
             existPeople.setUpdated_by(userId);
             existPeople.setUpdated_date(new Date());
 
-            LOGGER.info("People Already Exist!", existPeople.toString());
+            // Update additional fields (email, phone, media)
+            if (email != null) {
+                // Update email in a related table or model
+                emailRepository.updateEmailForPeople(id, email);
+            }
+            if (phone != null) {
+                // Update phone in a related table or model
+                phoneRepository.updatePhoneForPeople(id, phone);
+            }
+            if (media != null) {
+                // Update media in a related table or model
+                mediaRepository.updateMediaForPeople(id, media);
+            }
+            
+
+            LOGGER.info("People updated successfully!", existPeople.toString());
             return peopleRepository.save(existPeople);
-        }
-        else{
-            LOGGER.warn("People with ID: " + id + "not found update.");
+        } else {
+            LOGGER.warn("People with ID: " + id + " not found for update.");
             return null;
         }
     }
+
 
 }

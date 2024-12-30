@@ -77,16 +77,7 @@ public class PeopleController {
             Model model) {
 
         try {
-            // Process uploaded file
-            if (file != null && !file.isEmpty()) {
-                String fileName = file.getOriginalFilename();
-                Path filePath = Paths.get(UPLOAD_DIR, fileName);
-                Files.write(filePath, file.getBytes());
-                peopleModel.setImage(fileName); // Save file name
-            } else if (currentImage != null) {
-                peopleModel.setImage(currentImage); // Keep existing image
-            }
-
+                                                  
             // Prepare related models
             List<PhoneModel> phones = phoneNumbers != null
                     ? phoneNumbers.stream().map(phone -> {
@@ -126,7 +117,7 @@ public class PeopleController {
         }
     }
 
-    @GetMapping("/viewPeople/{id}")
+    @GetMapping("/ /{id}")
     public String viewPeople(@PathVariable("id")UUID id, Model m)
     {
         Optional<PeopleModel> people = peopleService.findbyId(id);
@@ -175,40 +166,104 @@ public class PeopleController {
     }
 
     @PostMapping("/editPeople/{id}")
-    public String editPeople(@PathVariable("id") UUID peopleId,
-                             Model m,
-                             @ModelAttribute("people") PeopleModel people,
-                             @RequestParam("image") MultipartFile file,
-                             HttpServletRequest httprequest) throws IOException
-
-    {
+    public String editPeople(
+            @PathVariable("id") UUID peopleId,
+            Model m,
+            @ModelAttribute("people") PeopleModel people, // Binds non-file fields
+            @RequestParam("image") MultipartFile file, // Separate file handling
+            @RequestParam("email") String email,
+            @RequestParam("phone") String phone,
+            @RequestParam("media") String media,
+            HttpServletRequest httpRequest) throws IOException {
+    
         Optional<PeopleModel> p = peopleService.findbyId(peopleId);
-        if(p.isPresent()){
+        if (p.isPresent()) {
             PeopleModel existingPeople = p.get();
-            
-            if(!file.isEmpty()){
+    
+            // Handle image upload
+            if (!file.isEmpty()) {
                 try {
                     String fileName = file.getOriginalFilename();
-                    Path filePath = Paths.get(UPLOAD_DIR, fileName);
+                    Path uploadDir = Paths.get(UPLOAD_DIR);
+                    if (!Files.exists(uploadDir)) {
+                        Files.createDirectories(uploadDir);
+                    }
+                    Path filePath = uploadDir.resolve(fileName);
                     Files.write(filePath, file.getBytes());
-                    people.setImage(fileName);
+                    people.setImage(fileName); // Set new image
                 } catch (Exception e) {
                     e.printStackTrace();
-                    m.addAttribute("errorMessage","Error updating image.");
+                    m.addAttribute("errorMessage", "Error updating image.");
                     return "redirect:/people/edit-people";
                 }
+            } else {
+                people.setImage(existingPeople.getImage()); // Retain current image
             }
-            else{
-                people.setImage(existingPeople.getImage());
-            }
-            PeopleModel editPeople = peopleService.editPeople(people, peopleId, httprequest);
-            m.addAttribute("people", editPeople);
+    
+            // Update the rest of the people's details
+            PeopleModel updatedPeople = peopleService.editPeople(
+                    people, peopleId, email, phone, media, httpRequest);
+            m.addAttribute("people", updatedPeople);
+           
+            LOGGER.info("Uploaded file: " + file.getOriginalFilename());
 
             return "redirect:/people/people-list";
-        }else{
+        } else {
             m.addAttribute("errorMessage", "People not found.");
             return "redirect:/people/people-list";
         }
     }
+    
+
+    // @PostMapping("/editPeople/{id}")
+    // public String editPeople(@PathVariable("id") UUID peopleId,
+    //                          Model m,
+    //                          @ModelAttribute("people") PeopleModel people,
+    //                          @RequestParam("image") MultipartFile file,
+    //                          @RequestParam("email") String email,
+    //                          @RequestParam("phone") String phone,
+    //                          @RequestParam("media") String media,
+    //                          HttpServletRequest httpRequest) throws IOException {
+    //     Optional<PeopleModel> p = peopleService.findbyId(peopleId);
+    //     if (p.isPresent()) {
+    //         PeopleModel existingPeople = p.get();
+    
+    //         // Handle image upload
+    //         if (!file.isEmpty()) {
+    //             try {
+    //                 String fileName = file.getOriginalFilename();
+    //                 Path filePath = Paths.get(UPLOAD_DIR, fileName);
+
+    //                 if(!Files.exists(filePath)){
+    //                     Files.createDirectories(filePath);
+    //                 }
+
+    //                 Files.write(filePath, file.getBytes());
+    //                 people.setImage(fileName);
+    //             } catch (Exception e) {
+    //                 e.printStackTrace();
+    //                 m.addAttribute("errorMessage", "Error updating image.");
+    //                 return "redirect:/people/edit-people";
+    //             }
+    //         } else {
+    //             people.setImage(existingPeople.getImage());
+    //         }
+    
+    //         // Call service to update people and related fields
+    //         PeopleModel updatedPeople = peopleService.editPeople(
+    //                 people, peopleId, email, phone, media, httpRequest);
+    //         m.addAttribute("people", updatedPeople);
+    
+    //         LOGGER.info("File name: " + file.getOriginalFilename());
+    //         LOGGER.info("Existing image: " + existingPeople.getImage());
+    //         LOGGER.info("Updated image: " + people.getImage());
+
+    //         return "redirect:/people/people-list";
+    //     } else {
+    //         m.addAttribute("errorMessage", "People not found.");
+    //         return "redirect:/people/people-list";
+    //     }
+    // }
+    
   
 }
