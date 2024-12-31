@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import com.aub.backend_aub_shop.model.UserModel;
 
-
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, UUID> {
 

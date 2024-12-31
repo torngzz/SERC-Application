@@ -8,6 +8,8 @@ import com.aub.backend_aub_shop.util.LogAction;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,6 +29,7 @@ public class TransactionModel {
     @JoinColumn(name = "user_id", referencedColumnName = "id") // Ensure 'id' matches UserModel's primary key
     private UserModel user; // Rename this from `user_id` to `user`
 
+    @Enumerated(EnumType.STRING)
     private LogAction action;
     private String status;
     private Date transanctionDate;

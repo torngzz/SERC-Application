@@ -113,13 +113,7 @@ public class UserModel implements UserDetails {
         return true;
     }
 
-    public UUID getId() {
-        return id;
-    }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getRole() {
         return role;
@@ -201,6 +195,14 @@ public class UserModel implements UserDetails {
         this.cfPassword = cfPassword;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public int getStatus() {
         return status;
     }
@@ -208,4 +210,6 @@ public class UserModel implements UserDetails {
     public void setStatus(int status) {
         this.status = status;
     }
+
+
 }   

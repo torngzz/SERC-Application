@@ -85,69 +85,70 @@ public class UserService implements UserDetailsService {
         
     //     return userRepo.save(user);
     // }
-        private static final Pattern LETTERS_ONLY_PATTERN = Pattern.compile("^[a-zA-Z]+$");
+
+    private static final Pattern LETTERS_ONLY_PATTERN = Pattern.compile("^[a-zA-Z]+$");
     // Matches only numbers (0-9)
-        private static final Pattern NUMBER_ONLY_PATTERN = Pattern.compile("^[0-9]+$");
+    private static final Pattern NUMBER_ONLY_PATTERN = Pattern.compile("^[0-9]+$");
 
-        // Matches valid email addresses
-        private static final Pattern EMAIL_ONLY_PATTERN = Pattern.compile("^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$");    // private static final Pattern LETTERS_ONLY_PATTERN = Pattern.compile("^[a-zA-Z]+$");
+    // Matches valid email addresses
+    private static final Pattern EMAIL_ONLY_PATTERN = Pattern.compile("^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$");    // private static final Pattern LETTERS_ONLY_PATTERN = Pattern.compile("^[a-zA-Z]+$");
 
-        @Transactional
-        public UserModel create(HttpServletRequest request, UserModel user) {
-            // Validate the username
-            validateUsername(user.getUsername());
-            validateEmail(user.getEmail());
-            validatePhone(user.getPhone());
+    @Transactional
+    public UserModel create(HttpServletRequest request, UserModel user) {
+        // Validate the username
+        validateUsername(user.getUsername());
+        validateEmail(user.getEmail());
+        validatePhone(user.getPhone());
 
-            checkForDuplicateUser(user);
+        checkForDuplicateUser(user);
 
-            HttpSession session = request.getSession();
-            UUID userId = UserSessionUtils.getUserId(session);
+        HttpSession session = request.getSession();
+        UUID userId = UserSessionUtils.getUserId(session);
 
-            if (userId == null) {
-                LOGGER.info("User ID not found in session. Cannot create user.");
-            }
-
-            if(user.getId() == null){
-                user.setId(UUID.randomUUID());
-            }
-
-            String rawPassword = generateRandomPassword();
-            String encryptedPassword = passwordEncoder.encode(rawPassword);
-
-            // user.setId(UUID.randomUUID());
-            user.setStatus(1);
-            user.setCreatedDate(new Date());
-            user.setUpdatedDate(new Date());
-            user.setPassword(encryptedPassword); 
-            user.setCreatedBy(userId);
-            user.setUpdatedBy(userId);
-            LOGGER.info("New user ID: " + user.getId());
-            LOGGER.info("New user created by: " + userId);
-            
-            //Sending user's password through email
-            emailService.sendEmail(user.getEmail(), "AUB E-Shop Password", "Your password for SERC-Application is : " + rawPassword);
-
-            return userRepo.save(user);
+        if (userId == null) {
+            LOGGER.info("User ID not found in session. Cannot create user.");
         }
 
-        public void validateUsername(String username) {
-            if (username == null || !LETTERS_ONLY_PATTERN.matcher(username).matches()) {
-                throw new IllegalArgumentException("Username must only contain letters.");
-            }
+        if(user.getId() == null){
+            user.setId(UUID.randomUUID());
         }
 
-        public void validateEmail(String email) {
-            if (email == null || !EMAIL_ONLY_PATTERN.matcher(email).matches()) {
-                throw new IllegalArgumentException("Username must only contain letters.");
-            }
-        }
+        String rawPassword = generateRandomPassword();
+        String encryptedPassword = passwordEncoder.encode(rawPassword);
 
-        public void validatePhone(String phone) {
-            if (phone == null || !NUMBER_ONLY_PATTERN.matcher(phone).matches()) {
-                throw new IllegalArgumentException("Username must only contain letters.");
-            }
+        // user.setId(UUID.randomUUID());
+        user.setStatus(1);
+        user.setCreatedDate(new Date());
+        user.setUpdatedDate(new Date());
+        user.setPassword(encryptedPassword); 
+        user.setCreatedBy(userId);
+        user.setUpdatedBy(userId);
+        LOGGER.info("New user ID: " + user.getId());
+        LOGGER.info("New user created by: " + userId);
+        
+        //Sending user's password through email
+        emailService.sendEmail(user.getEmail(), "AUB E-Shop Password", "Your password for SERC-Application is : " + rawPassword);
+
+        return userRepo.save(user);
+    }
+
+    public void validateUsername(String username) {
+        if (username == null || !LETTERS_ONLY_PATTERN.matcher(username).matches()) {
+            throw new IllegalArgumentException("Username must only contain letters.");
         }
+    }
+
+    public void validateEmail(String email) {
+        if (email == null || !EMAIL_ONLY_PATTERN.matcher(email).matches()) {
+            throw new IllegalArgumentException("Username must only contain letters.");
+        }
+    }
+
+    public void validatePhone(String phone) {
+        if (phone == null || !NUMBER_ONLY_PATTERN.matcher(phone).matches()) {
+            throw new IllegalArgumentException("Username must only contain letters.");
+        }
+    }
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
